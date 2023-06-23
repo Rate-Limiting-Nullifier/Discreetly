@@ -36,22 +36,30 @@
   * Staking by tiers with different rate limits?
 * Should messages be ephemeral/temporary? (the last day?)
 
-### Stack?
-
-#### Front End
+### Front End
+discreetly.chat will be the front end and backend
+#### Stack
 * Nuxtjs
+* websockets
 
-#### Back End
+#### Login
+* Cryptkeeper
+* Metamask
+* Walletconnect
+* Sismo
+* Zupass
+
+### Back End
+discreetly.chat will be the front end and backend
+
+stakers.chat will be a standalone backend for eth stakers
+#### Stack
 * Javascript / Typescript
   * Node?
   * Libp2p?
   * Shorter development cycle
   * Dev process is annoying
   * One language stack which is nice
-* Rust
-  * Libp2p?
-  * Long development cycle
-  * Fast / Solid
 * Python
   * Library compatibility issues with RLNjs and maybe any other ZK libraries
   * I could write it really fast

@@ -1,0 +1,89 @@
+@import "../../../../node_modules/bootstrap/scss/_functions";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../node_modules/bootstrap/scss/_mixins";
+
+// set theme colors
+$d-blackish: rgba(0, 0, 0, 0.98);
+$d-gray-dark: #212121;
+$d-gray-light: rgba(242, 242, 242, 0.6);
+$d-white: rgba(255, 255, 255, 1);
+$d-whitish: rgb(225, 225, 225);
+$d-steel: rgb(108, 149, 153);
+$d-neon-green: #59f02b;
+$d-green: #19d457;
+$d-green-light: #61f291;
+$d-green-dark: #198754;
+$d-jade: #45a164;
+$d-hunter-green: #405c37;
+$d-dark-blue: #315db5;
+$d-blue: #477eed;
+$d-blue-light: #53d3e0;
+$d-blue-very-light: #a7f6ff;
+$d-violet: #9198e5;
+$d-violet-light: #b4bbff;
+$d-mauve: #cc71c2;
+$d-pink: #bf2c7f;
+$d-purple: #b638f5;
+$d-sunset: #ff7575;
+$d-sunset-light: #ffb585;
+$d-orangered: #fa5f5f;
+$d-max-red: #de1a1a;
+$d-yellow: #fad14b;
+
+$primary: $d-sunset;
+$dark: $d-gray-dark;
+$theme1: $d-purple;
+
+// bootstrap overrides
+
+$blue:    $d-blue;
+$indigo:  #6610f2;
+$purple:  $d-purple;
+$pink:    $d-pink;
+$red:     $d-max-red;
+$orange:  $d-sunset;
+$yellow:  $d-yellow;
+$green:   $d-green-dark;
+$teal:    #20c997;
+$cyan:    $d-blue-light;
+
+$primary:       $d-dark-blue;
+$secondary:     $gray-600;
+$success:       $green;
+$info:          $cyan;
+$warning:       $yellow;
+$danger:        $red;
+$light:         $gray-100;
+$dark:          $gray-900;
+
+// add custom colors to the bootstrap theme
+$custom-theme-colors: (
+        "theme1": $theme1,
+        "white": $white
+);
+
+// fix for bootstrap 5.1 transposing colors
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+
+// Overwrite bootstrap sass variables (check _variables for all options)
+$enable-negative-margins: true;
+$enable-cssgrid: true;
+$enable-grid-classes: false;
+$font-family-base: 'Poppins', sans-serif;
+$link-color: $theme1;
+$navbar-padding-y: $spacer * .1;
+$navbar-light-toggler-border-color: rgba($white, 0);
+$navbar-dark-toggler-border-color: rgba($white, 0);
+$body-top-padding: $font-size-base + ($line-height-base + $nav-link-padding-y);
+
+body {
+    padding-top: $body-top-padding;
+}
+
+
+// Finally load bootstrap
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
+
+// Load a custom font
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap');
