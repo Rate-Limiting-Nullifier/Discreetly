@@ -1,9 +1,14 @@
 <template>
-  <div class="d-flex flex-column h-100">
+  <div class="d-flex flex-column align-content-between">
     <AppHeader />
-    <main class="align-items-center">
+    <main class="align-items-center align-self-stretch">
       <slot />
     </main>
-    <AppFooter />
   </div>
 </template>
+
+<style scoped lang="scss">
+main {
+  margin-top: 0.8rem;
+}
+</style>

@@ -1,6 +1,8 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxtjs/device'],
-  css: ['~/assets/scss/main.scss']
+  modules: ['@nuxtjs/device', '@pinia/nuxt', 'nuxt-security'],
+  css: ['~/assets/scss/main.scss'],
+  security: {
+    corsHandler: { origin: '*', methods: '*' }
+  }
 });

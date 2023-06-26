@@ -1,11 +1,15 @@
 <template>
   <ul class="list-group">
-    <li v-for="(room, index) in rooms" :key="index" class="list-group-item" :class="{ active: currentRoom === room }"
-      @click="switchRoom(room)">
-      {{ room }}
+    <li v-for="(iroom, index) in rooms" :key="index" class="list-group-item" @click="switchRoom(iroom.id as bigint)">
+      {{ iroom.name }}
     </li>
   </ul>
 </template>
-<script>
 
+<script setup lang="ts">
+import { RoomI } from '../../../interfaces/src/main'
+defineProps<{
+  rooms: RoomI[]
+  switchRoom: (roomId: bigint) => void
+}>()
 </script>

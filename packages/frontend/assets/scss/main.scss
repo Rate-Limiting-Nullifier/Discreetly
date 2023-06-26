@@ -2,88 +2,63 @@
 @import "../../../../node_modules/bootstrap/scss/_variables";
 @import "../../../../node_modules/bootstrap/scss/_mixins";
 
-// set theme colors
-$d-blackish: rgba(0, 0, 0, 0.98);
-$d-gray-dark: #212121;
-$d-gray-light: rgba(242, 242, 242, 0.6);
-$d-white: rgba(255, 255, 255, 1);
-$d-whitish: rgb(225, 225, 225);
-$d-steel: rgb(108, 149, 153);
-$d-neon-green: #59f02b;
-$d-green: #19d457;
-$d-green-light: #61f291;
-$d-green-dark: #198754;
-$d-jade: #45a164;
-$d-hunter-green: #405c37;
-$d-dark-blue: #315db5;
-$d-blue: #477eed;
-$d-blue-light: #53d3e0;
-$d-blue-very-light: #a7f6ff;
-$d-violet: #9198e5;
-$d-violet-light: #b4bbff;
-$d-mauve: #cc71c2;
-$d-pink: #bf2c7f;
-$d-purple: #b638f5;
-$d-sunset: #ff7575;
-$d-sunset-light: #ffb585;
-$d-orangered: #fa5f5f;
-$d-max-red: #de1a1a;
-$d-yellow: #fad14b;
-
-$primary: $d-sunset;
-$dark: $d-gray-dark;
-$theme1: $d-purple;
-
-// bootstrap overrides
-
-$blue:    $d-blue;
-$indigo:  #6610f2;
-$purple:  $d-purple;
-$pink:    $d-pink;
-$red:     $d-max-red;
-$orange:  $d-sunset;
-$yellow:  $d-yellow;
-$green:   $d-green-dark;
-$teal:    #20c997;
-$cyan:    $d-blue-light;
-
-$primary:       $d-dark-blue;
-$secondary:     $gray-600;
-$success:       $green;
-$info:          $cyan;
-$warning:       $yellow;
-$danger:        $red;
-$light:         $gray-100;
-$dark:          $gray-900;
-
-// add custom colors to the bootstrap theme
-$custom-theme-colors: (
-        "theme1": $theme1,
-        "white": $white
-);
-
-// fix for bootstrap 5.1 transposing colors
-$theme-colors: map-merge($theme-colors, $custom-theme-colors);
-$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
-
 // Overwrite bootstrap sass variables (check _variables for all options)
 $enable-negative-margins: true;
 $enable-cssgrid: true;
 $enable-grid-classes: false;
-$font-family-base: 'Poppins', sans-serif;
-$link-color: $theme1;
+$font-family-base: 'Space Grotesk', sans-serif;
 $navbar-padding-y: $spacer * .1;
 $navbar-light-toggler-border-color: rgba($white, 0);
 $navbar-dark-toggler-border-color: rgba($white, 0);
-$body-top-padding: $font-size-base + ($line-height-base + $nav-link-padding-y);
+
+$navbar-dark-color:                 hsl(185, 18%, 50%);
+$navbar-dark-hover-color:           hsl(185, 18%, 66%);
+$navbar-dark-active-color:          hsl(185, 18%, 80%);
+$navbar-dark-disabled-color:        hsl(185, 18%, 33%);
+$navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+$navbar-dark-toggler-border-color:  hsl(185, 18%, 33%);
+$navbar-dark-brand-color:           hsl(0, 94%, 67%);
+$navbar-dark-brand-hover-color:     hsl(0, 94%, 75%);
+
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
+
+// Load a custom font
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+// set theme colors
+:root {
+--blackish: rgba(0, 0, 0, 0.98);
+--gray-dark: #212121;
+--gray-light: rgba(242, 242, 242, 0.6);
+--white: rgba(255, 255, 255, 1);
+--whitish: rgb(225, 225, 225);
+--steel: hsl(185, 18%, 50%);
+--steel-light: hsl(185, 18%, 66%);
+--steel-dark: hsl(185, 18%, 33%);
+--neon-green: #59f02b;
+--green: #19d457;
+--green-light: #61f291;
+--green-dark: #198754;
+--jade: #45a164;
+--hunter-green: #405c37;
+--dark-blue: #315db5;
+--blue: #477eed;
+--blue-light: #53d3e0;
+--blue-very-light: #a7f6ff;
+--violet: #9198e5;
+--violet-light: #b4bbff;
+--mauve: #cc71c2;
+--pink: #bf2c7f;
+--purple: #b638f5;
+--sunset: #ff7575;
+--sunset-light: #ffb585;
+--orangered: #fa5f5f;
+--max-red: #de1a1a;
+--yellow: #fad14b;
+}
+
+$body-top-padding: $line-height-base + ($nav-link-padding-y) * 2;
 
 body {
     padding-top: $body-top-padding;
 }
-
-
-// Finally load bootstrap
-@import "../../../../node_modules/bootstrap/scss/bootstrap";
-
-// Load a custom font
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap');
