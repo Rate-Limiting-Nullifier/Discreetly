@@ -1,0 +1,9 @@
+{
+  "extends": "../frontend/.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+  },
+  "files": [
+    "./src/server.ts"
+  ]
+}

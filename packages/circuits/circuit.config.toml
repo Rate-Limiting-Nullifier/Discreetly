@@ -1,0 +1,17 @@
+[Circuit_Version]
+RLN_Version = 2
+RLN_Type = "same"
+
+[Circuit_Build]
+Circom_Version = "circom compiler 2.1.5"
+GitHub_URL = "https://github.com/Rate-Limiting-Nullifier/rln-circuits-v2.git"
+Git_Commit = "2ed630c"
+Compilation_Time = 1687753234
+
+[Files]
+Wasm = "rln.wasm"
+Wasm_SHA256SUM = "16e5eed9ab59dabc8168215dcc0eeb4d93d0f93b8e8218fe803f166db50331f5"
+Zkey = "rln_final.zkey"
+Zkey_SHA256SUM = "4ca826d0bb5aabf68ec34f63adc5c08c3effe3a33cd4887fdbc2dafc43d49c7a"
+Verification_Key = "verification_key.json"
+Verification_Key_SHA256SUM = "6343b813767bbca4471ff1e6a30fb8864d4fc9c5e7d4b2f49241119d50b655ba"

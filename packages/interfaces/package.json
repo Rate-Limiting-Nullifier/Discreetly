@@ -1,0 +1,16 @@
+{
+  "name": "discreetly-interfaces",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "tsc ./src/main.ts --outDir ./dist",
+    "start": "node dist/main.js",
+    "watch": "tsc ./src/main.ts --outDir ./dist --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {}
+}
