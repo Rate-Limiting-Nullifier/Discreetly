@@ -5,7 +5,7 @@ import * as cors from 'cors';
 import verifier from './verifier';
 import { serverConfig, rooms } from '../mockData/rooms';
 import { MessageI } from '../../interfaces/src/main';
-import vkey from '../../circuits/verification_key.json';
+import vkey from './vkey';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -27,16 +27,14 @@ const io = new SocketIOServer(socket_server, {
 io.on('connection', (socket: Socket) => {
   console.debug('a user connected');
 
-  socket.on('chat message', (msg: MessageI) => {
+  socket.on('messageFromClient', (msg: MessageI) => {
     console.log('VALIDATING MESSAGE ' + msg);
     const valid = v.verifyProof(msg.room, msg.proof);
-
-    io.emit('chat message', msg);
-  });
-
-  socket.on('test', (msg: string) => {
-    console.log(msg);
-    io.emit('test', { received: msg });
+    if (!valid) {
+      console.log('INVALID MESSAGE');
+      return;
+    }
+    io.emit('messageToClient', msg);
   });
 
   socket.on('disconnect', () => {
