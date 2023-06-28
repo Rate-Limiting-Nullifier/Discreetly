@@ -19,7 +19,20 @@
 ### Groups
 
 * Admin (me) can make groups
-  * by invite link?
+  * by invite code
+    * Permission to add 1 identity commitment
+* Gated Rooms (that you can watch, but can't participate in)
+  * ZK Stamps!
+  *
+
+* Types of Rooms:
+| Type    | Read          | Write                           | Encrypted           | Centralized | RLN Protected |
+| ------- | ------------- | ------------------------------- | ------------------- | ----------- | ------------- |
+| Public  | Y             | via link/code for all rooms     | N                   | Y           | Y             |
+| Gated   | Y             | via link/code for specific room | N                   | Y           | Y             |
+| Private | via link/code | via link/code for specific room | N                   | Y           | Y             |
+| Secure  | via link/code | via link/code for specific room | Y (shared password) | Y           | Y             |
+| DM-P2P  | via link/code | via link/code for specific room | Y (shared password) | N (p2p)     | ?             |
 
 ### Chat
 

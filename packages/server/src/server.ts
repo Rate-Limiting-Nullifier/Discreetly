@@ -2,21 +2,24 @@ import * as express from 'express';
 import { Server } from 'http';
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import * as cors from 'cors';
-import verifier from './verifier';
 import { serverConfig, rooms } from '../mockData/rooms';
 import { MessageI } from '../../interfaces/src/main';
-import vkey from './vkey';
+import verifyProof from './verifier';
 
+// Deal with bigints in JSON
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
 };
 
+// HTTP is to get info from the server about configuration, rooms, etc
 const http_port = 3001;
+// Socket is to communicate chat room messages back and forth
 const socket_port = 3002;
 
 const app = express();
 const socket_server = new Server(app);
-const v = new verifier(vkey);
+
+// RLN Verifier Wrapper
 
 const io = new SocketIOServer(socket_server, {
   cors: {
@@ -29,7 +32,7 @@ io.on('connection', (socket: Socket) => {
 
   socket.on('messageFromClient', (msg: MessageI) => {
     console.log('VALIDATING MESSAGE ' + msg);
-    const valid = v.verifyProof(msg.room, msg.proof);
+    const valid = verifyProof(msg.room, msg.proof);
     if (!valid) {
       console.log('INVALID MESSAGE');
       return;

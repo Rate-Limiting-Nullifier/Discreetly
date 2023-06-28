@@ -1,15 +1,17 @@
-import { RLNVerifier, RLNFullProof, VerificationKey } from 'rlnjs';
+import { MessageI } from '../../interfaces/src/main';
+import { RLNVerifier } from 'rlnjs';
+import vkey from '../vkey';
+import { poseidon1 } from 'poseidon-lite/poseidon1';
 
-class verifier {
-  vkey: VerificationKey;
-  constructor(vkey: VerificationKey) {
-    this.vkey = vkey;
-  }
+const v = new RLNVerifier(vkey);
 
-  async verifyProof(roomId: bigint, proof: RLNFullProof): Promise<boolean> {
-    const v = new RLNVerifier(this.vkey, roomId);
-    return v.verifyProof(proof);
+async function verifyProof(msg: MessageI): Promise<boolean> {
+  const rlnIdentifier = BigInt(msg.room);
+  const msgHash = poseidon1([BigInt(msg.message)]);
+  if (msgHash !== msg.proof.snarkProof.publicSignals.x) {
+    return false;
   }
+  return v.verifyProof(rlnIdentifier, msg.proof);
 }
 
-export default verifier;
+export default verifyProof;
