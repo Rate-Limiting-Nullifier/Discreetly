@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import { SettingsI, ServerI } from '../interfaces/interfaces';
 import { RoomI } from '../../interfaces/src/main';
 
@@ -71,7 +70,7 @@ export const useRootStore = defineStore(STORE_NAME, {
       this.settings.servers.forEach(async (server: ServerI, index: number) => {
         const endpoint = 'http://' + server.serverInfoEndpoint + '/';
         try {
-          const data = await axios.get(endpoint);
+          const data = await useFetch(endpoint);
           this.settings.servers[index].serverData = data.data;
         } catch (error) {
           console.log(error);
@@ -81,7 +80,7 @@ export const useRootStore = defineStore(STORE_NAME, {
     async fetchRooms(): Promise<RoomI[]> {
       const server = this.getSelectedServer;
       const endpoint = 'http://' + server.serverInfoEndpoint + '/rooms';
-      const response = await fetch(endpoint);
+      const response = await useFetch(endpoint);
 
       const data: RoomI[] = await response.json();
       server.serverData.rooms = data as RoomI[];
