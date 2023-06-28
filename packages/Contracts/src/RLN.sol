@@ -3,11 +3,12 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzepplin/contracts/access/Ownable.sol";
 import {IVerifier} from "./IVerifier.sol";
 
 /// @title Rate-Limiting Nullifier registry contract
 /// @dev This contract allows you to register RLN commitment and withdraw/slash.
-contract RLN {
+contract RLN is Ownable {
     using SafeERC20 for IERC20;
 
     /// @dev User metadata struct.
@@ -40,9 +41,6 @@ contract RLN {
 
     /// @dev Address of the fee receiver.
     address public immutable FEE_RECEIVER;
-
-    /// @dev Address of the owner
-    address public OWNER;
 
     /// @dev Fee percentage.
     uint8 public immutable FEE_PERCENTAGE;
@@ -118,11 +116,6 @@ contract RLN {
         withdrawPaused = 0;
         slashingPaused = 0;
         registrationPaused = 0;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
     }
 
     modifier withdrawEnabled() {
@@ -299,11 +292,7 @@ contract RLN {
     /// @param identityCommitment: `identityCommitment`;
     /// @param amount: stake amount.
 
-    function owner_register(uint256 identityCommitment) external ownerOnly {
-        require(
-            msg.sender == owner(),
-            "RLN, register: only owner can call register for free"
-        );
+    function owner_register(uint256 identityCommitment) external onlyOwner {
         require(
             identityCommitmentIndex < SET_SIZE,
             "RLN, register: set is full"
@@ -321,19 +310,19 @@ contract RLN {
         }
     }
 
-    function owner_set_withdraw_paused(bool paused) external ownerOnly {
+    function owner_set_withdraw_paused(bool paused) external onlyOwner {
         withdrawPaused = paused ? 1 : 0;
     }
 
-    function owner_set_slashing_paused(bool paused) external ownerOnly {
+    function owner_set_slashing_paused(bool paused) external onlyOwner {
         slashingPaused = paused ? 1 : 0;
     }
 
-    function owner_set_registration_paused(bool paused) external ownerOnly {
+    function owner_set_registration_paused(bool paused) external onlyOwner {
         registrationPaused = paused ? 1 : 0;
     }
 
-    function owner_set_owner(address newOwner) external ownerOnly {
+    function owner_set_owner(address newOwner) external onlyOwner {
         owner = newOwner;
     }
 }
