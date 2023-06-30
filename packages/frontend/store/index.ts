@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import { SettingsI, ServerI } from '../interfaces/interfaces';
-import { RoomI } from '../../protocol-interfaces/src/main';
+import { MembershipI, RoomGroupI, RoomI, ServerI } from '../../protocol-interfaces/src/main';
 import { createGlobalState, useStorage } from '@vueuse/core';
+import { SettingsI } from 'interfaces/interfaces';
 
 const STORE_NAME = 'root';
 
@@ -10,14 +10,26 @@ const defaultServers: ServerI[] = [
     name: 'Discreetly',
     serverInfoEndpoint: 'localhost:3001',
     messageHandlerSocket: 'localhost:3002',
-    serverData: { rooms: [], selectedRoom: 0n }
+    roomGroups: [
+      {
+        name: 'client_defaults',
+        rooms: [
+          {
+            id: 0n,
+            name: 'Loading...',
+            membership: [0n, 1n, 2n] as MembershipI
+          }
+        ]
+      }
+    ]
   }
 ];
 
 // TODO: Need to write a settings class
 const getDefaultSettings = (): SettingsI => ({
   selectedServer: 0,
-  servers: defaultServers
+  servers: defaultServers,
+  selectedRoom: 0n
 });
 
 export const useGlobalState = createGlobalState(() => {
@@ -38,50 +50,53 @@ export function getSelectedServer(): ServerI {
   return defaultServers[0];
 }
 
-export function getRooms(): RoomI[] {
+export function getRooms(): RoomGroupI[] | undefined {
   const settings = useGlobalState().value.settings;
-  return settings.servers[settings.selectedServer].serverData.rooms;
+  return settings.servers[settings.selectedServer].roomGroups;
 }
 
 export function getSelectedRoom(): RoomI {
   const settings = useGlobalState().value.settings;
-  const selectedRoom = settings.servers[settings.selectedServer].serverData.selectedRoom;
+  console.log(settings);
+  const selectedRoom = settings.selectedRoom;
   if (selectedRoom) {
-    return settings.servers[settings.selectedServer].serverData.rooms.find(
-      (element) => element.id === selectedRoom
-    ) as RoomI;
-  } else {
-    return settings.servers[settings.selectedServer].serverData.rooms[0];
+    settings.servers[settings.selectedServer].roomGroups.forEach((RoomGroup) => {
+      RoomGroup.rooms.forEach((room) => {
+        if (room.id === selectedRoom) {
+          return room;
+        }
+      });
+    });
   }
+  return settings.servers[settings.selectedServer].roomGroups[0].rooms[0];
 }
 
 export function setSelectedRoom(room: RoomI['id']) {
   const settings = useGlobalState().value.settings;
-  settings.servers[settings.selectedServer].serverData.selectedRoom = room;
+  settings.selectedRoom = room;
 }
 
-export async function fetchRooms(): Promise<RoomI[]> {
+export async function fetchRooms(): Promise<RoomGroupI[]> {
   const settings = useGlobalState().value.settings;
   const server = settings.servers[settings.selectedServer];
   const endpoint = 'http://' + server.serverInfoEndpoint + '/rooms';
   const response = await useFetch(endpoint);
   console.log(response);
-  const data: RoomI[] = (await response.data.value) as RoomI[];
-  server.serverData.rooms = data as RoomI[];
-  return server.serverData.rooms;
+  const data: RoomGroupI[] = (await response.data.value) as RoomGroupI[];
+  server.roomGroups = data as RoomGroupI[];
+  return server.roomGroups;
 }
 
-export async function fetchServers(): Promise<ServerI[]> {
+export async function fetchServers(): Promise<void> {
   const servers = useGlobalState().value.settings.servers;
   servers.forEach(async (server: ServerI, index: number) => {
     const endpoint = 'http://' + server.serverInfoEndpoint + '/';
     try {
       const response = await useFetch(endpoint);
       console.log(response);
-      servers[index].serverData = response.data.value as ServerI['serverData'];
+      servers[index] = response.data.value as ServerI;
     } catch (error) {
       console.log(error);
     }
   });
-  return servers;
 }

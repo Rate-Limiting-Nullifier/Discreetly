@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-import { RoomI } from '../../../interfaces/src/main'
+import { RoomGroupI } from '../../../protocol-interfaces/src/main'
 defineProps<{
-  rooms: RoomI[]
+  rooms: RoomGroupI[]
   switchRoom: (roomId: bigint) => void
 }>()
 </script>

@@ -3,10 +3,11 @@
     <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-lg">
       <div class="container-fluid d-flex align-content-between">
         <div class="d-flex">
-          <a class="navbar-brand" href="#">Discreetly</a>
+          <a class="navbar-brand d-none d-md-block" href="#">Discreetly</a>
 
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <a class="navbar-brand d-block d-md-none" href="#">Discreetly</a>
               <li class="nav-item">
                 <NuxtLink to="/" class="nav-link">Home</NuxtLink>
               </li>
@@ -21,7 +22,7 @@
         </div>
         <div class="navbar-brand" id="server-title">{{ serverName }}</div>
         <div>
-          <div class="navbar-text">© 2023 Privacy and Scaling Explorations</div>
+          <div class="navbar-text d-none d-md-block">© 2023 Privacy and Scaling Explorations</div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

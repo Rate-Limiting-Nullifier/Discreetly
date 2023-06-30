@@ -1,46 +1,36 @@
 # ZK-Chat v2
 
-## Topic
-
-* Should we rewrite ZK-chat?
-    * current ZK Chat is not maintainable
-    * We could use zkitterd-zkchat
-    * We could write it from scratch
-
-## Requirements
-
-### Login
-
-* Cryptkeeper
+## Credential Storage
+* Localstorage
+  * Start with this, its easy, but not super secure
+* Cryptkeeper?
 * Sismo?
 * Zupass?
 * Walletconnect/metamask?
 
-### Groups
+## Group Creation
 
 * Admin (me) can make groups
   * by invite code
     * Permission to add 1 identity commitment
-* Gated Rooms (that you can watch, but can't participate in)
+* Gated Room Ideas (that you can watch, but can't participate in)
+  * Steam Games!
   * ZK Stamps!
-  *
+  * Events!
+    * Devconnect
 
-### Types of Rooms:
+
+### Types of Rooms/Groups
 | Type    | Read          | Write                           | Encrypted           | Centralized | RLN Protected |
 | ------- | ------------- | ------------------------------- | ------------------- | ----------- | ------------- |
-| Public  | Y             | via link/code for all rooms     | N                   | Y           | Y             |
 | Gated   | Y             | via link/code for specific room | N                   | Y           | Y             |
+| ------- | ------------- | ------------------------------- | ------------------- | ----------- | ------------- |
+| Public? | Y             | via link/code for all rooms     | N                   | Y           | Y             |
 | Private | via link/code | via link/code for specific room | N                   | Y           | Y             |
 | Secure  | via link/code | via link/code for specific room | Y (shared password) | Y           | Y             |
 | DM-P2P  | via link/code | via link/code for specific room | Y (shared password) | N (p2p)     | ?             |
 
-### Chat
-
-* Public group chat
-* Private group chat
-  * by invite link
-  * if idcommitment is in group
-* DMs (private group chat, but encrypted)
+* Start with Gated Rooms
 
 ## Open Questions
 * P2P v Centralized?

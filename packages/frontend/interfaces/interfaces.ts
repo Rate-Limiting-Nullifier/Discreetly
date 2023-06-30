@@ -1,15 +1,8 @@
-import { RoomI } from '../../protocol-interfaces/src/main';
-
+import { RoomI, ServerI } from '../../protocol-interfaces/src/main';
 export interface SettingsI {
-  selectedServer: number;
   servers: ServerI[];
-}
-
-export interface ServerI {
-  name: string;
-  serverInfoEndpoint: string;
-  messageHandlerSocket: string;
-  serverData: { rooms: RoomI[]; selectedRoom?: RoomI['id'] };
+  selectedServer: number;
+  selectedRoom: RoomI['id'];
 }
 
 export interface RoomsProviderI {

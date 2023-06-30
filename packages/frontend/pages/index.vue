@@ -9,7 +9,6 @@ import { useGlobalState } from '../store'
 export default defineComponent({
   async setup() {
     const state = useGlobalState()
-    console.log(state.value.settings)
     return { state }
   },
 })

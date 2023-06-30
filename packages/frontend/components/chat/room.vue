@@ -1,5 +1,8 @@
 
 <template>
+  <div class="chat-room">
+    <h3>{{ room.name }}</h3>
+  </div>
   <div class="chat-messages">
     <div class="chat-message" v-for="(message, index) in messages" :key="index">
       <p>
@@ -14,7 +17,7 @@
 
 <script lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import { RoomI, MessageI } from '../../../interfaces/src/main'
+import { RoomI, MessageI } from '../../../protocol-interfaces/src/main'
 import io from 'socket.io-client'
 import { RLNFullProof } from 'rlnjs'
 

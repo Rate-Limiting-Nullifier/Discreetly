@@ -1,6 +1,0 @@
-{
-  "extends": "./packages/frontend/.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "resolveJsonModule": true
-  }
-}

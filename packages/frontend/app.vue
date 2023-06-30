@@ -15,8 +15,8 @@ const isDark = usePreferredDark();
 
 export default defineComponent({
   setup() {
-    const state = useGlobalState()
     fetchServers()
+    const state = useGlobalState()
     return { state }
   },
 })

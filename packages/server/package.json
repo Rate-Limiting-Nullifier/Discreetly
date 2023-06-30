@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server/src/server.js",
-    "watch": "tsc --watch",
+    "watch": "tsc --watch ./src/server.ts --outDir ./dist/",
     "serve": "nodemon -q dist/server/src/server.js",
     "dev": "concurrently \"npm run watch\" \"npm run serve\""
   },

@@ -13,11 +13,11 @@
 <script setup lang="ts">
 import { getSelectedRoom, getSelectedServer, setSelectedRoom } from '../../store'
 import { ref } from 'vue'
-import { RoomI } from '../../../interfaces/src/main'
-import { ServerI } from 'interfaces/interfaces'
+import { RoomI, RoomGroupI, ServerI } from '../../../protocol-interfaces/src/main'
 
 const server: Ref<ServerI> = ref(getSelectedServer())
 const room: Ref<RoomI> = ref(getSelectedRoom())
+const roomGroups: Ref<RoomGroupI[]> = ref(server.value.roomGroups)
 const roomSocketEndpoint = ref(server.value.messageHandlerSocket)
 
 function switchRoom(new_room: RoomI["id"]) {
@@ -28,6 +28,8 @@ function switchRoom(new_room: RoomI["id"]) {
 </script>
 
 <script lang="ts">
+
+
 export default {
   data() {
     return {
