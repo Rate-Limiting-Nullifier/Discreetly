@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { getSelectedRoom, getSelectedServer, setSelectedRoom } from '../../store'
-import { ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { RoomI, RoomGroupI, ServerI } from '../../../protocol-interfaces/src/main'
 
 const server: Ref<ServerI> = ref(getSelectedServer())
