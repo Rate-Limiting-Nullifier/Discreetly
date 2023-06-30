@@ -1,5 +1,5 @@
 import bip39ish, { bip39 } from './bip39ish';
-import { ClaimCodeT, ClaimCodeSetsT } from './types';
+import { ClaimCodeT, ClaimCodeSetT, ClaimCodeSetsT } from './types';
 
 export enum ClaimCodeStatusEnum {
   CLAIMED = 'CLAIMED',
@@ -136,5 +136,31 @@ export default class ClaimCodeManager {
     groupID = groupID.toString();
     const o = { groupID: this.claimCodeSets[groupID] };
     return o;
+  }
+
+  public getUsedCount(groupID: number | string): {
+    usedCount: number;
+    unusedCount: number;
+    totalCount: number;
+  } {
+    groupID = groupID.toString();
+    let usedCount = 0;
+    const totalCount = this.claimCodeSets[groupID].claimCodes.length;
+    for (let claimCode of this.claimCodeSets[groupID].claimCodes) {
+      if (claimCode.used) {
+        usedCount++;
+      }
+    }
+    const unusedCount = totalCount - usedCount;
+    return { usedCount, unusedCount, totalCount };
+  }
+
+  public getGroupIdFromName(name: string): number {
+    for (const claimCodeSet of Object.values(this.claimCodeSets)) {
+      if (claimCodeSet.name === name) {
+        return claimCodeSet.groupID;
+      }
+    }
+    return -1;
   }
 }

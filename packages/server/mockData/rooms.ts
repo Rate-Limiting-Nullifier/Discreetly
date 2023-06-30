@@ -1,4 +1,4 @@
-import { RoomI, ServerI } from '../../interfaces/src/main';
+import { MembershipI, RoomI, ServerI } from '../../protocol-interfaces/src/main';
 import { poseidon2 } from 'poseidon-lite/poseidon2';
 
 import 'dotenv/config';
@@ -11,6 +11,7 @@ try {
 } catch (error) {
   console.error('Error reading serverID from .env file!');
 }
+
 const room_1 = poseidon2([serverID, 1n]);
 const room_2 = poseidon2([serverID, 2n]);
 const room_3 = poseidon2([serverID, 3n]);
@@ -26,22 +27,22 @@ export const rooms: RoomI[] = [
   {
     id: room_1,
     name: 'General',
-    membership: [fake_user_1, fake_user_2]
+    membership: [fake_user_1, fake_user_2] as MembershipI
   },
   {
     id: room_2,
     name: 'Event 1',
-    membership: [fake_user_1, fake_user_3, fake_user_5]
+    membership: [fake_user_1, fake_user_3, fake_user_5] as MembershipI
   },
   {
     id: room_3,
     name: 'Club 1',
-    membership: [fake_user_2, fake_user_3, fake_user_4]
+    membership: [fake_user_2, fake_user_3, fake_user_4] as MembershipI
   },
   {
     id: room_4,
     name: 'Test 1',
-    membership: [fake_user_4, fake_user_5]
+    membership: [fake_user_4, fake_user_5] as MembershipI
   }
 ];
 

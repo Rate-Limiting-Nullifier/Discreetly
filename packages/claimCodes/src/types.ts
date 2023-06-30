@@ -3,11 +3,13 @@ export type ClaimCodeT = {
   used: boolean;
 };
 
+export type ClaimCodeSetT = {
+  claimCodes: ClaimCodeT[];
+  groupID: number;
+  generationTime?: number;
+  name?: string;
+};
+
 export type ClaimCodeSetsT = {
-  [key: number | string]: {
-    claimCodes: ClaimCodeT[];
-    groupID: number;
-    generationTime?: number;
-    name?: string;
-  };
+  [key: number | string]: ClaimCodeSetT;
 };

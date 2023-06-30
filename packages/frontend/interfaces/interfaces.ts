@@ -1,4 +1,4 @@
-import { RoomI } from '../../interfaces/src/main';
+import { RoomI } from '../../protocol-interfaces/src/main';
 
 export interface SettingsI {
   selectedServer: number;

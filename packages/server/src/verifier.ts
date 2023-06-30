@@ -1,4 +1,4 @@
-import { MessageI } from '../../interfaces/src/main';
+import { MessageI } from '../../protocol-interfaces/src/main';
 import { RLNVerifier } from 'rlnjs';
 import vkey from '../vkey';
 import { poseidon1 } from 'poseidon-lite/poseidon1';

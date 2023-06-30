@@ -11,20 +11,19 @@
 </template>
 
 <script setup lang="ts">
-import { useRootStore } from '@/store/root'
+import { getSelectedRoom, getSelectedServer, setSelectedRoom } from '../../store'
 import { ref } from 'vue'
 import { RoomI } from '../../../interfaces/src/main'
+import { ServerI } from 'interfaces/interfaces'
 
-const rootStore = useRootStore()
-
-const rooms = ref(rootStore.getSelectedServer.serverData.rooms)
-const room = ref(rootStore.getSelectedRoom ? rootStore.getSelectedRoom : rooms.value[0])
-const roomSocketEndpoint = ref(rootStore.getSelectedServer.messageHandlerSocket)
+const server: Ref<ServerI> = ref(getSelectedServer())
+const room: Ref<RoomI> = ref(getSelectedRoom())
+const roomSocketEndpoint = ref(server.value.messageHandlerSocket)
 
 function switchRoom(new_room: RoomI["id"]) {
   console.log("switching room to " + new_room)
-  rootStore.setSelectedRoom(new_room)
-  room.value = rootStore.getSelectedRoom
+  setSelectedRoom(new_room)
+  room.value = getSelectedRoom()
 }
 </script>
 

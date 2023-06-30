@@ -25,7 +25,7 @@
   * ZK Stamps!
   *
 
-* Types of Rooms:
+### Types of Rooms:
 | Type    | Read          | Write                           | Encrypted           | Centralized | RLN Protected |
 | ------- | ------------- | ------------------------------- | ------------------- | ----------- | ------------- |
 | Public  | Y             | via link/code for all rooms     | N                   | Y           | Y             |
@@ -66,6 +66,7 @@ discreetly.chat will be the front end and backend
 discreetly.chat will be the front end and backend
 
 stakers.chat will be a standalone backend for eth stakers
+
 #### Stack
 * Javascript / Typescript
   * Node?
@@ -84,3 +85,4 @@ stakers.chat will be a standalone backend for eth stakers
 * Waku?
 * IPFS?
 * Firebase?
+* SQLite? <- Leaning this way, keep all config/registration stuff in sqlite, and all messages in RAM/ephemeral

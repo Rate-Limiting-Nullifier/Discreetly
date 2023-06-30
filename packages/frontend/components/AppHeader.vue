@@ -39,9 +39,8 @@
 </style>
 
 <script setup lang="ts">
-import { useRootStore } from '@/store/root'
 import { ref } from 'vue'
-const store = useRootStore()
-const selectedServer = store.settings.selectedServer
+import { getSelectedServer } from '../store/index'
+const selectedServer = getSelectedServer()
 const serverName = ref(selectedServer.name)
 </script>
