@@ -4,7 +4,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 import * as cors from 'cors';
 // import { createClient } from 'redis';
 // import initializeClaimCodeManager from './inviteCodes';
-import { serverConfig, rooms } from '../mockData/rooms';
+import { serverConfig, rooms } from '../config/rooms';
 import { MessageI } from '../../protocol-interfaces/src/main';
 import verifyProof from './verifier';
 
