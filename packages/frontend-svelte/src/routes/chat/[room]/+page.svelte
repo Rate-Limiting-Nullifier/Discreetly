@@ -4,12 +4,12 @@
 	import { goto } from '$app/navigation';
 	import type { RoomI, ServerI } from '$lib/types';
 
-	export let server: ServerI;
+	import { selectedServer as server } from '$lib/stores';
 	let room: RoomI | undefined;
 
 	onMount(() => {
 		let roomNamePath = $page.params.room;
-		room = server.roomGroups
+		room = $server.roomGroups
 			.map((group) => group.rooms)
 			.flat()
 			.find((room) => room.name === roomNamePath);
@@ -17,7 +17,7 @@
 			console.log('no room, redirecting to /chat');
 			goto('/chat');
 		} else {
-			server.selectedRoom = room.id;
+			$server.selectedRoom = room.id;
 		}
 	});
 </script>

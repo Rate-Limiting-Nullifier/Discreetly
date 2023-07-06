@@ -1,22 +1,20 @@
 <script lang="ts">
 	import RoomList from './RoomList.svelte';
 	import type { ServerI } from '$lib/types';
-	import { servers } from '$lib/stores';
+	import { servers, selectedServer } from '$lib/stores';
 
-	export let server: ServerI;
-
-	let room = server.roomGroups
+	let room = $selectedServer.roomGroups
 		.map((group) => group.rooms)
 		.flat()
-		.find((room) => room.id === server.selectedRoom);
+		.find((room) => room.id === $selectedServer.selectedRoom);
 
 	function selectRoom(id: ServerI['selectedRoom']) {
-		server.selectedRoom = id;
+		$selectedServer.selectedRoom = id;
 		console.log('selectRoom');
 	}
 </script>
 
 <div class="container-fluid">
-	<RoomList roomGroups={server.roomGroups} {selectRoom} />
-	<slot {server} />
+	<RoomList roomGroups={$selectedServer.roomGroups} {selectRoom} />
+	<slot />
 </div>
