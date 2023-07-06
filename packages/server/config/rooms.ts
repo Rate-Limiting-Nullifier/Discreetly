@@ -30,6 +30,17 @@ export const rooms: RoomGroupI[] = [
         id: genId(serverID, '1EthRoom'),
         name: '1EthRoom',
         membership: [idcommitment_1, idcommitment_2, idcommitment_5] as MembershipI
+      },
+      {
+        id: genId(serverID, 'Test'),
+        name: 'Test',
+        membership: [
+          idcommitment_1,
+          idcommitment_2,
+          idcommitment_3,
+          idcommitment_4,
+          idcommitment_5
+        ] as MembershipI
       }
     ]
   },

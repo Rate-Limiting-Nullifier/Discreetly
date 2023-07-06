@@ -1,4 +1,4 @@
-import { RLNFullProof } from 'rlnjs';
+import type { RLNFullProof } from 'rlnjs';
 
 export type IdentityCommitmentT = bigint;
 
@@ -10,7 +10,7 @@ export enum RoomType {
 }
 
 export interface MembershipI {
-  identityCommitment?: IdentityCommitmentT[];
+  identityCommitments?: IdentityCommitmentT[];
   rlnContract?: RLNContractI;
 }
 
@@ -38,7 +38,7 @@ export interface RoomI {
   rateLimit?: number; // Messages per minute
   membership?: MembershipI; // List of Identity Commitments, or a contract address for an RLN contract
   type?: RoomType; // Public or private
-  messageHandlerSocket?: number; // Port for websocket connections
+  messageHandlerSocket?: string; // Port for websocket connections
 }
 
 export interface RoomGroupI {
@@ -53,4 +53,62 @@ export interface ServerI {
   messageHandlerSocket?: string; // Default port for websocket connections
   publicMembership?: MembershipI;
   roomGroups: RoomGroupI[];
+  selectedRoom?: RoomI['id'];
+}
+
+export class Server {
+  name: string;
+  version: string | undefined;
+  serverInfoEndpoint: string;
+  messageHandlerSocket: string | undefined;
+  publicMembership: MembershipI | undefined;
+  roomGroups: RoomGroupI[];
+  selectedRoom: string | bigint;
+  constructor(public server: ServerI) {
+    this.name = server.name;
+    this.version = server.version;
+    this.serverInfoEndpoint = server.serverInfoEndpoint;
+    this.messageHandlerSocket = server.messageHandlerSocket;
+    this.publicMembership = server.publicMembership;
+    this.roomGroups = server.roomGroups;
+    this.selectedRoom = server.selectedRoom
+      ? server.selectedRoom
+      : server.roomGroups[0].rooms[0].id;
+  }
+
+  getRoomById(id: string | bigint): RoomI | undefined {
+    return this.roomGroups
+      .map((group) => group.rooms)
+      .flat()
+      .find((room) => room.id === id);
+  }
+
+  getRoomByName(name: string): RoomI | undefined {
+    return this.roomGroups
+      .map((group) => group.rooms)
+      .flat()
+      .find((room) => room.name === name);
+  }
+
+  getRoomGroupByName(name: string): RoomGroupI | undefined {
+    return this.roomGroups.find((group) => group.name === name);
+  }
+
+  setRoomById(id: string | bigint) {
+    if (this.getRoomById(id)) {
+      this.selectedRoom = id;
+      return id;
+    } else {
+      return -1;
+    }
+  }
+
+  getRoomHandlerSocket(id: string | bigint): string | undefined {
+    const room = this.getRoomById(id);
+    if (room) {
+      return room.messageHandlerSocket;
+    } else {
+      return this.messageHandlerSocket;
+    }
+  }
 }

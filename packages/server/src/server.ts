@@ -59,12 +59,12 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
+app.get(['/', '/api'], (req, res) => {
   console.log('fetching server info');
   res.json(serverConfig);
 });
 
-app.get('/rooms', (req, res) => {
+app.get('/api/rooms', (req, res) => {
   console.log('fetching rooms');
   res.json(rooms);
 });
