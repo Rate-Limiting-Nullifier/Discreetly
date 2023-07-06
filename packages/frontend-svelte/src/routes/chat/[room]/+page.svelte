@@ -22,7 +22,7 @@
 	});
 </script>
 
-<div class="chat-room">
+<div class="col-6 chat-room">
 	<h3>{room?.name}</h3>
 	<div class="chat-messages">
 		<div class="chat-message">
