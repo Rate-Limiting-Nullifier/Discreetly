@@ -24,23 +24,25 @@ export const rooms: RoomGroupI[] = [
       {
         id: genId(serverID, 'General'),
         name: 'General',
-        membership: [idcommitment_1, idcommitment_2, idcommitment_5] as MembershipI
+        membership: { identityCommitments: [idcommitment_1, idcommitment_2, idcommitment_5] }
       },
       {
         id: genId(serverID, '1EthRoom'),
         name: '1EthRoom',
-        membership: [idcommitment_1, idcommitment_2, idcommitment_5] as MembershipI
+        membership: { identityCommitments: [idcommitment_1, idcommitment_2, idcommitment_5] }
       },
       {
         id: genId(serverID, 'Test'),
         name: 'Test',
-        membership: [
-          idcommitment_1,
-          idcommitment_2,
-          idcommitment_3,
-          idcommitment_4,
-          idcommitment_5
-        ] as MembershipI
+        membership: {
+          identityCommitments: [
+            idcommitment_1,
+            idcommitment_2,
+            idcommitment_3,
+            idcommitment_4,
+            idcommitment_5
+          ]
+        }
       }
     ]
   },
@@ -50,7 +52,7 @@ export const rooms: RoomGroupI[] = [
       {
         id: genId(serverID, 'Gunfire Reborn'),
         name: 'Gunfire Reborn',
-        membership: [idcommitment_2, idcommitment_3, idcommitment_4] as MembershipI
+        membership: { identityCommitments: [idcommitment_2, idcommitment_3, idcommitment_4] }
       }
     ]
   },
@@ -60,7 +62,7 @@ export const rooms: RoomGroupI[] = [
       {
         id: genId(serverID, 'Devconnect 2023'),
         name: 'Devconnect 2023',
-        membership: [idcommitment_1, idcommitment_3, idcommitment_5] as MembershipI
+        membership: { identityCommitments: [idcommitment_1, idcommitment_3, idcommitment_5] }
       }
     ]
   }
