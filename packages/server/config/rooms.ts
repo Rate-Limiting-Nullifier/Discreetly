@@ -24,12 +24,14 @@ export const rooms: RoomGroupI[] = [
       {
         id: genId(serverID, 'General'),
         name: 'General',
-        membership: { identityCommitments: [idcommitment_1, idcommitment_2, idcommitment_5] }
+        membership: { identityCommitments: [idcommitment_1, idcommitment_2, idcommitment_5] },
+        rateLimit: 1000
       },
       {
         id: genId(serverID, '1EthRoom'),
         name: '1EthRoom',
-        membership: { identityCommitments: [idcommitment_1, idcommitment_2, idcommitment_5] }
+        membership: { identityCommitments: [idcommitment_1, idcommitment_2, idcommitment_5] },
+        rateLimit: 100
       },
       {
         id: genId(serverID, 'Test'),
@@ -42,7 +44,8 @@ export const rooms: RoomGroupI[] = [
             idcommitment_4,
             idcommitment_5
           ]
-        }
+        },
+        rateLimit: 10000
       }
     ]
   },
@@ -52,7 +55,8 @@ export const rooms: RoomGroupI[] = [
       {
         id: genId(serverID, 'Gunfire Reborn'),
         name: 'Gunfire Reborn',
-        membership: { identityCommitments: [idcommitment_2, idcommitment_3, idcommitment_4] }
+        membership: { identityCommitments: [idcommitment_2, idcommitment_3, idcommitment_4] },
+        rateLimit: 1000
       }
     ]
   },
@@ -62,7 +66,8 @@ export const rooms: RoomGroupI[] = [
       {
         id: genId(serverID, 'Devconnect 2023'),
         name: 'Devconnect 2023',
-        membership: { identityCommitments: [idcommitment_1, idcommitment_3, idcommitment_5] }
+        membership: { identityCommitments: [idcommitment_1, idcommitment_3, idcommitment_5] },
+        rateLimit: 1000
       }
     ]
   }

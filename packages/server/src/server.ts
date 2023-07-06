@@ -27,6 +27,12 @@ const io = new SocketIOServer(socket_server, {
   }
 });
 
+interface userCountI {
+  [key: string]: number;
+}
+
+let userCount: userCountI = {};
+
 // Redis
 
 // const redisClient = createClient();
@@ -38,18 +44,29 @@ const io = new SocketIOServer(socket_server, {
 io.on('connection', (socket: Socket) => {
   console.debug('a user connected');
 
-  socket.on('messageFromClient', (msg: MessageI) => {
+  socket.on('validateMessage', (msg: MessageI) => {
     console.log('VALIDATING MESSAGE ' + msg);
-    const valid = verifyProof(msg);
-    if (!valid) {
-      console.log('INVALID MESSAGE');
-      return;
-    }
-    io.emit('messageToClient', msg);
+    //const valid = verifyProof(msg);
+    // if (!valid) {
+    //   console.log('INVALID MESSAGE');
+    //   return;
+    // }
+    msg.id = Date.now().toString();
+    io.emit('messageBroadcast', msg);
   });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
+  });
+
+  socket.on('joinRoom', (roomID: bigint) => {
+    const id = roomID.toString();
+    userCount[id] = userCount[id] ? userCount[id] + 1 : 1;
+  });
+
+  socket.on('leaveRoom', (roomID: bigint) => {
+    const id = roomID.toString();
+    userCount[id] = userCount[id] ? userCount[id] - 1 : 0;
   });
 });
 

@@ -20,10 +20,10 @@ export interface RLNContractI {
 }
 
 export interface MessageI {
-  id: string; // internal nullifier as string
-  room: RLNFullProof['rlnIdentifier'];
+  id?: string; // internal nullifier as string
+  room?: RLNFullProof['rlnIdentifier'];
   message: string;
-  proof: RLNFullProof;
+  proof?: RLNFullProof;
 }
 
 export interface SystemMessageI {
@@ -35,7 +35,7 @@ export interface SystemMessageI {
 export interface RoomI {
   id: RLNFullProof['rlnIdentifier'] | string; // RLN Identifier
   name: string; // Readable name
-  rateLimit?: number; // Messages per minute
+  rateLimit?: number; // Milliseconds between messages
   membership?: MembershipI; // List of Identity Commitments, or a contract address for an RLN contract
   type?: RoomType; // Public or private
   messageHandlerSocket?: string; // Port for websocket connections

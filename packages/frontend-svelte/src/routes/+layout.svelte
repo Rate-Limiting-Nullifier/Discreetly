@@ -32,6 +32,19 @@
 				console.error(err);
 			});
 	});
+
+	// if (!localStorage.getItem('secrets')) {
+	// 	console.log('MAKING UP SECRETS');
+	// 	const nullifier = BigInt(Math.random() * 10000000000000);
+	// 	const trapdoor = BigInt(Math.random() * 10000000000000);
+	// 	localStorage.setItem(
+	// 		'secrets',
+	// 		JSON.stringify({
+	// 			nullifier: nullifier,
+	// 			trapdoor: trapdoor
+	// 		})
+	// 	);
+	// }
 </script>
 
 <div class="d-flex flex-column align-content-between">
