@@ -13,17 +13,19 @@
 	}
 
 	function setRoom(id: string) {
-		console.debug('setRoom: ', id);
-		const temp_rooms = $selectedServer.roomGroups.map((group) => group.rooms).flat();
-		console.debug('temp_rooms: ', temp_rooms);
-		const temp_room = temp_rooms.find((room) => (room.id as string) == (id as string));
-		console.debug('temp_room: ', temp_room);
+		const temp_room = $selectedServer.roomGroups
+			.map((group) => group.rooms)
+			.flat()
+			.find((room) => room.id === id);
 
 		if (temp_room) {
+			console.debug('Setting Room to Selected', temp_room.name);
 			room = temp_room;
 		} else if ($selectedServer.roomGroups[0]) {
+			console.debug('Setting Room to Default');
 			room = $selectedServer.roomGroups[0].rooms[0];
 		} else {
+			console.debug('Loading Rooms Still');
 			room = {
 				id: '0',
 				name: 'Loading',
@@ -31,6 +33,12 @@
 			};
 		}
 	}
+
+	$: selectedServer.subscribe((server) => {
+		if (server) {
+			setRoom($selectedServer.selectedRoom as string);
+		}
+	});
 
 	onMount(() => {
 		setRoom($selectedServer.selectedRoom as string);
