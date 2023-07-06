@@ -1,8 +1,13 @@
 <script lang="ts">
 	import { selectedServer } from '$lib/stores';
 	import type { RoomI } from '$lib/types';
-
+	import { io } from 'socket.io-client';
 	export let room: RoomI | undefined = undefined;
+
+	const socketURL: string =
+		room?.messageHandlerSocket || $selectedServer.messageHandlerSocket || '';
+	console.log(socketURL);
+	const socket = io(socketURL);
 </script>
 
 <div class="col-6 chat-room">
