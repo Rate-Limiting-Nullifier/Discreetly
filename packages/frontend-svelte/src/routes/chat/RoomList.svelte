@@ -1,8 +1,16 @@
 <script lang="ts">
-	import type { RoomGroupI } from '$lib/types';
+	import type { RoomGroupI, RoomI } from '$lib/types';
+	import { selectedServer } from '$lib/stores';
 
-	export let roomGroups: RoomGroupI[];
-	export let selectRoom: (id: string | bigint) => any;
+	$: roomGroups = $selectedServer.roomGroups;
+
+	export let selectRoom: (room: RoomI) => any;
+
+	function getMembers(room: RoomI): string {
+		let total: number | string = '0';
+		total = room.membership?.identityCommitments?.length || '?';
+		return total.toString();
+	}
 </script>
 
 <div class="col">
@@ -11,20 +19,16 @@
 		{#each roomGroups as group}
 			<h5 class="mt-4">{group.name}</h5>
 			<ul class="list-group">
-				{#each group.rooms as room}
+				{#each group.rooms as room, index}
 					<div class="card mb-3" style="width: 18rem;">
-						<div class="card-body" on:click={selectRoom(room.id)}>
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<!-- svelte-ignore a11y-no-static-element-interactions -->
+						<div class="card-body" on:click={selectRoom(room)}>
 							<h5 class="card-title">{room.name}</h5>
-							<p class="card-text">Members: {room.membership?.identityCommitments?.length}</p>
-							<div
-								on:click={selectRoom(room.name)}
-								class="btn btn-primary"
-								on:keydown|preventDefault={(e) => e.key === 'Enter' && selectRoom(room.id)}
-								aria-label={`Join ${room.name} chat room`}
-								aria-roledescription="button"
-							>
-								Join
-							</div>
+							<p class="card-text">Members: {getMembers(room)}</p>
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<!-- svelte-ignore a11y-no-static-element-interactions -->
+							<div on:click={selectRoom(room)} class="btn btn-primary">Join</div>
 						</div>
 					</div>
 				{/each}

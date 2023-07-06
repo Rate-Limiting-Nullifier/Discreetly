@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { ServerI } from '$lib/types';
-
-	export let server: ServerI;
+	import { selectedServer } from '$lib/stores';
 </script>
 
-{server}
+<div class="col">
+	{$selectedServer.name}
+</div>

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { ServerI } from '$lib/types';
-	export let servers: ServerI[] = [];
-	export let selectedServer: ServerI;
+	import { servers, selectedServer } from '$lib/stores';
 	export let setSelectedServer: (server: ServerI) => void;
 </script>
 
@@ -36,10 +35,10 @@
 					data-bs-toggle="dropdown"
 					aria-expanded="false"
 				>
-					{selectedServer.name}
+					{$selectedServer.name}
 				</a>
 				<ul class="dropdown-menu">
-					{#each servers as server}
+					{#each $servers as server}
 						<li>
 							<div
 								aria-label={'select ' + server.name}

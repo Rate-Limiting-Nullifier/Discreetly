@@ -25,7 +25,6 @@
 		})
 			.then(async (response) => {
 				$servers[0] = await response.json();
-				console.debug(servers);
 				// TODO: Handle case where no servers are available or server is already selected in localstorage
 				selectedServer.set($servers[0]);
 			})
@@ -36,7 +35,7 @@
 </script>
 
 <div class="d-flex flex-column align-content-between">
-	<AppHeader servers={$servers} selectedServer={$selectedServer} {setSelectedServer} />
+	<AppHeader {setSelectedServer} />
 	<main class="container-fluid align-items-center align-self-stretch">
 		<slot />
 	</main>

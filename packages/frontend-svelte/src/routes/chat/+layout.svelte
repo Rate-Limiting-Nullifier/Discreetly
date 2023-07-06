@@ -1,7 +1,7 @@
 <script lang="ts">
 	import RoomList from './RoomList.svelte';
-	import type { ServerI } from '$lib/types';
-	import { servers, selectedServer } from '$lib/stores';
+	import type { RoomI } from '$lib/types';
+	import { selectedServer } from '$lib/stores';
 	import { goto } from '$app/navigation';
 
 	let room = $selectedServer.roomGroups
@@ -9,15 +9,15 @@
 		.flat()
 		.find((room) => room.id === $selectedServer.selectedRoom);
 
-	function selectRoom(id: ServerI['selectedRoom']) {
-		$selectedServer.selectedRoom = id;
-		goto(`/chat/${id}`);
+	function selectRoom(room: RoomI) {
+		$selectedServer.selectedRoom = room.id;
+		goto(`/chat/${room.name}`);
 	}
 </script>
 
 <div class="container-fluid">
 	<div class="row">
-		<RoomList roomGroups={$selectedServer.roomGroups} {selectRoom} />
+		<RoomList {selectRoom} />
 		<slot />
 	</div>
 </div>

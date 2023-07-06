@@ -9,6 +9,7 @@
 
 	onMount(() => {
 		let roomNamePath = $page.params.room;
+		console.log('Searching for room', roomNamePath);
 		room = $server.roomGroups
 			.map((group) => group.rooms)
 			.flat()
