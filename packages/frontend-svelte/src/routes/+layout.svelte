@@ -40,10 +40,7 @@
 <div class="d-flex flex-column align-content-between">
 	<AppHeader {servers} {setSelectedServer} {selectedServer} />
 	<main class="container-fluid align-items-center align-self-stretch">
-		{#if selectedServer}
-			<slot server={selectedServer}>
-		{/if}
-		</slot>
+		<slot server={selectedServer} />
 	</main>
 	<AppFooter />
 </div>
