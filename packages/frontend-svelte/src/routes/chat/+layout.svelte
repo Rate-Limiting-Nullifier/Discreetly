@@ -1,6 +1,7 @@
 <script lang="ts">
 	import RoomList from './RoomList.svelte';
 	import type { ServerI } from '$lib/types';
+	import { servers } from '$lib/stores';
 
 	export let server: ServerI;
 

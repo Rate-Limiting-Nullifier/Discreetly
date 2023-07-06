@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ServerI } from '$lib/types';
 	export let servers: ServerI[] = [];
-	export let selectedServer: ServerI = { name: 'Loading' } as ServerI;
+	export let selectedServer: ServerI;
 	export let setSelectedServer: (server: ServerI) => void;
 </script>
 

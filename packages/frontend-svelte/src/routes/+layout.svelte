@@ -3,17 +3,15 @@
 	import type { ServerI } from '$lib/types';
 	import AppHeader from './AppHeader.svelte';
 	import AppFooter from './AppFooter.svelte';
+	import { servers, selectedServer } from '$lib/stores';
 
 	(BigInt.prototype as any).toJSON = function () {
 		return this.toString();
 	};
 
-	let servers: ServerI[] = [];
-	let selectedServer: ServerI;
-
 	function setSelectedServer(server: ServerI) {
 		console.debug('setting selected server');
-		selectedServer = server;
+		selectedServer.set(server);
 	}
 
 	onMount(async () => {
@@ -26,10 +24,10 @@
 			}
 		})
 			.then(async (response) => {
-				servers[0] = await response.json();
+				$servers[0] = await response.json();
 				console.debug(servers);
 				// TODO: Handle case where no servers are available or server is already selected in localstorage
-				selectedServer = servers[0];
+				selectedServer.set($servers[0]);
 			})
 			.catch((err) => {
 				console.error(err);
@@ -38,9 +36,9 @@
 </script>
 
 <div class="d-flex flex-column align-content-between">
-	<AppHeader {servers} {setSelectedServer} {selectedServer} />
+	<AppHeader servers={$servers} selectedServer={$selectedServer} {setSelectedServer} />
 	<main class="container-fluid align-items-center align-self-stretch">
-		<slot server={selectedServer} />
+		<slot />
 	</main>
 	<AppFooter />
 </div>
