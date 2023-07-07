@@ -7,6 +7,7 @@ import initializeClaimCodeManager from './inviteCodes';
 import { serverConfig, rooms as defaultRooms } from '../config/rooms';
 import { MessageI, RoomGroupI } from '../../protocol-interfaces/src/main';
 import verifyProof from './verifier';
+import ClaimCodeManager from '../../claimCodes/src/manager';
 
 // Deal with bigints in JSON
 (BigInt.prototype as any).toJSON = function () {
@@ -41,7 +42,23 @@ let loadedRooms: RoomGroupI[];
 const redisClient = createClient();
 redisClient.connect().then(() => console.log('Redis Connected'));
 
-let ccm = initializeClaimCodeManager(redisClient);
+let ccm: ClaimCodeManager;
+
+redisClient.get('ccm').then((cc) => {
+  if (!cc) {
+    ccm = new ClaimCodeManager();
+    ccm.generateClaimCodeSet(10, 999, 'TEST');
+    const ccs = ccm.getClaimCodeSets();
+    redisClient.set('ccm', JSON.stringify(ccs));
+  } else {
+    ccm = new ClaimCodeManager(JSON.parse(cc));
+    if (ccm.getUsedCount(999).unusedCount < 5) {
+      ccm.generateClaimCodeSet(10, 999, 'TEST');
+      const ccs = ccm.getClaimCodeSets();
+      redisClient.set('ccm', JSON.stringify(ccs));
+    }
+  }
+});
 
 redisClient.get('ccm').then((res) => console.log(res));
 
