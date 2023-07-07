@@ -4,48 +4,48 @@
 	import type { ServerI } from '$lib/types';
 	import AppHeader from './AppHeader.svelte';
 	import AppFooter from './AppFooter.svelte';
-	import { servers, selectedServer } from '$lib/stores';
+	import { identityStore, serverListStore, serverDataStore, selectedServer } from '$lib/stores';
+	import { randomBigInt } from '$lib/utils';
 
 	(BigInt.prototype as any).toJSON = function () {
 		return this.toString();
 	};
 
-	function setSelectedServer(server: ServerI) {
+	function setSelectedServer(server: number) {
 		console.debug('setting selected server');
 		selectedServer.set(server);
 	}
 
 	onMount(async () => {
-		console.info('fetching servers');
-		// TODO: Handle multiple servers
-		fetch('http://localhost:3001/api/', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*'
-			}
-		})
-			.then(async (response) => {
-				$servers[0] = await response.json();
-				// TODO: Handle case where no servers are available or server is already selected in localstorage
-				selectedServer.set($servers[0]);
+		console.info('Fetching server config');
+		$serverListStore.forEach((server, index) => {
+			console.debug(`Fetching server ${server}`);
+			fetch(server, {
+				method: 'GET',
+				headers: {
+					'Access-Control-Allow-Origin': 'http://localhost:*'
+				}
 			})
-			.catch((err) => {
-				console.error(err);
-			});
+				.then(async (response) => {
+					$serverDataStore[index] = await response.json();
+					console.debug($serverDataStore[index]);
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		});
+		if ($selectedServer.name == undefined) {
+			console.debug('setting selected server');
+			$selectedServer = 0;
+		}
 	});
 
-	// if (!localStorage.getItem('secrets')) {
-	// 	console.log('MAKING UP SECRETS');
-	// 	const nullifier = BigInt(Math.random() * 10000000000000);
-	// 	const trapdoor = BigInt(Math.random() * 10000000000000);
-	// 	localStorage.setItem(
-	// 		'secrets',
-	// 		JSON.stringify({
-	// 			nullifier: nullifier,
-	// 			trapdoor: trapdoor
-	// 		})
-	// 	);
-	// }
+	if ($identityStore.length != 2) {
+		console.log('MAKING UP SECRETS');
+		const nullifier = randomBigInt();
+		const trapdoor = randomBigInt();
+		$identityStore = [nullifier, trapdoor];
+	}
 </script>
 
 <div class="d-flex flex-column align-content-between">

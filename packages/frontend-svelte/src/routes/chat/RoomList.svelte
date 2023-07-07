@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { RoomGroupI, RoomI } from '$lib/types';
-	import { selectedServer } from '$lib/stores';
+	import { selectedServer, serverDataStore } from '$lib/stores';
 
-	$: roomGroups = $selectedServer.roomGroups;
+	$: roomGroups = $serverDataStore[$selectedServer].roomGroups;
 
 	export let selectRoom: (roomId: RoomI['id']) => any;
 
@@ -13,23 +13,26 @@
 	}
 </script>
 
-<div class="col-2">
-	<h4 class="border-bottom mb-1 pb-2">{$selectedServer.name} Server</h4>
-
+<div class="col-3">
 	<section id="roomList">
 		{#each roomGroups as group}
-			<h5 class="mt-2">{group.name}</h5>
-			<ul class="list-group">
+			<h4 class="mb-2 pb-2 border-bottom">{group.name}</h4>
+			<ul class="list-group my-2">
 				{#each group.rooms as room, index}
-					<div class="card mb-3">
+					<div class="mb-2">
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<!-- svelte-ignore a11y-no-static-element-interactions -->
-						<div class="card-body" on:click={selectRoom(room.id)}>
-							<h5 class="card-title">{room.name}</h5>
-							<p class="card-text">Members: {getMembers(room)}</p>
+						<div class="d-flex justify-content-between align-items-center">
+							<h5 class="flex-grow-1">{room.name}</h5>
+							<div class="px-3">{getMembers(room)} Members</div>
 							<!-- svelte-ignore a11y-click-events-have-key-events -->
 							<!-- svelte-ignore a11y-no-static-element-interactions -->
-							<div on:click={selectRoom(room.id)} class="btn btn-primary">Join</div>
+							<div
+								on:click={selectRoom(room.id)}
+								class="btn btn-sm btn-primary d-flex align-items-center"
+							>
+								💬
+							</div>
 						</div>
 					</div>
 				{/each}
@@ -37,3 +40,9 @@
 		{/each}
 	</section>
 </div>
+
+<style>
+	.btn-sm {
+		text-align: center !important;
+	}
+</style>

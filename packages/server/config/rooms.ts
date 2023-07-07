@@ -1,5 +1,5 @@
 import { MembershipI, RoomGroupI, ServerI } from '../../protocol-interfaces/src/main';
-import { genId } from '../src/utils';
+import { genId } from '../../protocol-interfaces/src/utils';
 import 'dotenv/config';
 
 let serverID = 999n;
@@ -55,6 +55,12 @@ export const rooms: RoomGroupI[] = [
       {
         id: genId(serverID, 'Gunfire Reborn'),
         name: 'Gunfire Reborn',
+        membership: { identityCommitments: [idcommitment_2, idcommitment_3, idcommitment_4] },
+        rateLimit: 1000
+      },
+      {
+        id: genId(serverID, 'Halo Infinite'),
+        name: 'Halo Infinite',
         membership: { identityCommitments: [idcommitment_2, idcommitment_3, idcommitment_4] },
         rateLimit: 1000
       }

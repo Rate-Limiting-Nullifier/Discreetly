@@ -121,7 +121,6 @@ h6 {
 
 input,
 textarea {
-
   border: 1px solid var(--steel-dark);
   border-radius: 0.5em;
   padding: 0.35rem 0.5rem;

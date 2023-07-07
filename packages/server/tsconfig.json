@@ -2,6 +2,7 @@
   "extends": "../frontend/.nuxt/tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
+    "target": "ES2022"
   },
   "files": [
     "./src/server.ts"

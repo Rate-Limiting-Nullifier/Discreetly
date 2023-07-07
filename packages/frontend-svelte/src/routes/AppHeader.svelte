@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ServerI } from '$lib/types';
-	import { servers, selectedServer } from '$lib/stores';
-	export let setSelectedServer: (server: ServerI) => void;
+	import { serverDataStore, selectedServer } from '$lib/stores';
+	export let setSelectedServer: (server: number) => void;
 </script>
 
 <header>
@@ -27,37 +27,39 @@
 					</ul>
 				</div>
 			</div>
-			<div class="navbar-brand dropdown" id="server-title">
-				<a
-					class="nav-link dropdown-toggle"
-					href="#"
-					role="button"
-					data-bs-toggle="dropdown"
-					aria-expanded="false"
-				>
-					{$selectedServer.name}
-				</a>
-				<ul class="dropdown-menu">
-					{#each $servers as server}
-						<li>
-							<div
-								aria-label={'select ' + server.name}
-								class="dropdown-item"
-								on:click={() => setSelectedServer(server)}
-								on:keydown={(event) => {
-									if (event.key === 'Enter' || event.key === ' ') {
-										setSelectedServer(server);
-									}
-								}}
-								role="button"
-								tabindex="0"
-							>
-								{server.name}
-							</div>
-						</li>
-					{/each}
-				</ul>
-			</div>
+			{#if $serverDataStore[$selectedServer] != undefined}
+				<div class="navbar-brand dropdown" id="server-title">
+					<a
+						class="nav-link dropdown-toggle"
+						href="#"
+						role="button"
+						data-bs-toggle="dropdown"
+						aria-expanded="false"
+					>
+						{$serverDataStore[$selectedServer].name}
+					</a>
+					<ul class="dropdown-menu">
+						{#each $serverDataStore as server, index}
+							<li>
+								<div
+									aria-label={'select ' + server.name}
+									class="dropdown-item"
+									on:click={() => setSelectedServer(index)}
+									on:keydown={(event) => {
+										if (event.key === 'Enter' || event.key === ' ') {
+											setSelectedServer(index);
+										}
+									}}
+									role="button"
+									tabindex="0"
+								>
+									{server.name}
+								</div>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
 			<div>
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item d-none d-lg-block">

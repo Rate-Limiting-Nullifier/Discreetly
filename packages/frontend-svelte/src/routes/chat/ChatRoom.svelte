@@ -1,23 +1,25 @@
 <script lang="ts">
-	import { selectedServer } from '$lib/stores';
+	import { selectedServer, messageStore, serverDataStore } from '$lib/stores';
 	import type { RoomI, MessageI } from '$lib/types';
 	import { io } from 'socket.io-client';
 	import { onDestroy } from 'svelte';
-
 	import { RLNProver } from 'rlnjs';
+	export let room: RoomI;
+
+	if (!$messageStore[room.id.toString()]) {
+		$messageStore[room.id.toString()] = [];
+	}
+	let messages = [...$messageStore[room.id.toString()]];
 
 	onDestroy(() => {
 		socket.emit('leavingRoom', room?.id);
 		socket.disconnect();
 	});
 
-	export let room: RoomI;
-
 	let inputText = '';
+	let sendButtonText = 'Send';
 
-	let messages = [] as MessageI[];
-
-	const socketURL: string = $selectedServer.messageHandlerSocket || '';
+	const socketURL: string = $serverDataStore[$selectedServer].messageHandlerSocket || '';
 
 	const socket = io(socketURL);
 	let connected: boolean = false;
@@ -56,7 +58,9 @@
 	});
 
 	socket.on('messageBroadcast', (data) => {
-		messages = [...messages, data];
+		messages = [data, ...messages];
+		messages = messages.slice(0, 500);
+		$messageStore[room.id.toString()] = messages;
 	});
 
 	function sendMessage(message: string) {
@@ -69,7 +73,7 @@
 	}
 </script>
 
-<div class="col-6 chat-room">
+<div class="col chat-room">
 	<div>
 		<h3>
 			{room?.name}
@@ -82,16 +86,16 @@
 			</span>
 		</h3>
 	</div>
-	<div class="chat-messages">
-		<div class="chat-message">
+	<div id="chat-messages" class="mb-3">
+		<section>
 			{#each messages as message}
-				<p>
+				<div class="chat-message">
 					<strong>{message.id}</strong>: {message.message}
-				</p>
+				</div>
 			{/each}
-		</div>
+		</section>
 	</div>
-	<div class="chat-input">
+	<div id="chat-input">
 		<input
 			type="text"
 			placeholder="Type your message here"
@@ -103,5 +107,41 @@
 				}
 			}}
 		/>
+		<div
+			class="btn btn-primary"
+			on:click={() => {
+				sendMessage(inputText);
+				inputText = '';
+			}}
+		>
+			{sendButtonText}
+		</div>
 	</div>
 </div>
+
+<style>
+	#chat-messages {
+		border: 1px solid var(--steel-dark);
+		border-radius: 0.5em;
+		padding: 0.35rem 0.5rem;
+		background-color: var(--steel-white);
+	}
+
+	#chat-messages section {
+		overflow-y: scroll;
+		max-height: 60vh;
+		display: flex;
+		flex-direction: column-reverse;
+		gap: 0.5rem;
+	}
+	#chat-input {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	#chat-input input {
+		flex-grow: 1;
+	}
+</style>
