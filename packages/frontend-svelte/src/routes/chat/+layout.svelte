@@ -46,6 +46,8 @@
 		<RoomList {selectRoom} />
 		{#if room}
 			<ChatRoom {room} />
+		{:else}
+			<slot />
 		{/if}
 	</div>
 </div>
