@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.css';
 	import { onMount } from 'svelte';
 	import type { ServerI } from '$lib/types';
 	import AppHeader from './AppHeader.svelte';
@@ -56,37 +57,6 @@
 </div>
 
 <style>
-	:root {
-		--blackish: rgba(0, 0, 0, 0.98);
-		--gray-dark: #212121;
-		--gray-light: rgba(242, 242, 242, 0.6);
-		--white: rgba(255, 255, 255, 1);
-		--whitish: rgb(225, 225, 225);
-		--steel: hsl(185, 18%, 50%);
-		--steel-light: hsl(185, 18%, 66%);
-		--steel-dark: hsl(185, 18%, 33%);
-		--neon-green: #59f02b;
-		--green: #19d457;
-		--green-light: #61f291;
-		--green-dark: #198754;
-		--jade: #45a164;
-		--hunter-green: #405c37;
-		--dark-blue: #315db5;
-		--blue: #477eed;
-		--blue-light: #53d3e0;
-		--blue-very-light: #a7f6ff;
-		--violet: #9198e5;
-		--violet-light: #b4bbff;
-		--mauve: #cc71c2;
-		--pink: #bf2c7f;
-		--purple: #b638f5;
-		--sunset: #ff7575;
-		--sunset-light: #ffb585;
-		--orangered: #fa5f5f;
-		--max-red: #de1a1a;
-		--yellow: #fad14b;
-	}
-
 	main {
 		margin-top: calc(0.5rem + 51px);
 	}

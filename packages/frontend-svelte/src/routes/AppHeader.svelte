@@ -8,10 +8,10 @@
 	<nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-lg">
 		<div class="container-fluid d-flex align-content-between">
 			<div class="d-flex">
-				<a class="navbar-brand d-none d-md-block" href="#">Discreetly</a>
+				<a class="navbar-brand d-none d-md-block" href="/">Discreetly</a>
 				<div class="collapse navbar-collapse" id="navbarText">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<a class="navbar-brand d-block d-md-none" href="#">Discreetly</a>
+						<a class="navbar-brand d-block d-md-none" href="/">Discreetly</a>
 						<li class="nav-item">
 							<a href="/" class="nav-link">Home</a>
 						</li>
