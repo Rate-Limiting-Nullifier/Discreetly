@@ -39,11 +39,11 @@ let loadedRooms: RoomGroupI[];
 // Redis
 
 const redisClient = createClient();
-redisClient.connect().then(() => console.log('Redis Connected'))
+redisClient.connect().then(() => console.log('Redis Connected'));
 
 let ccm = initializeClaimCodeManager(redisClient);
 
-redisClient.get('ccm').then(res => console.log(res));
+redisClient.get('ccm').then((res) => console.log(res));
 
 redisClient.get('rooms').then((rooms) => {
   rooms = JSON.parse(rooms);
@@ -54,10 +54,9 @@ redisClient.get('rooms').then((rooms) => {
     redisClient.set('rooms', JSON.stringify(loadedRooms));
   }
   console.log(loadedRooms);
-})
+});
 
 redisClient.on('error', (err) => console.log('Redis Client Error', err));
-
 
 io.on('connection', (socket: Socket) => {
   console.debug('a user connected');
@@ -109,7 +108,7 @@ app.post('/join', (req, res) => {
   console.log(code, idc);
   // TODO This is where we would validate the claim/invite code
   // TODO the `result` is in this format: https://github.com/AtHeartEngineering/Discreetly/blob/f2ea89d4b87004693985854e17a4e669177c4df3/packages/claimCodes/src/manager.ts#L10
-  const result = ccm.claimCode(code)
+  const result = ccm.claimCode(code);
   // TODO The `groupID` is the room ID like in https://github.com/AtHeartEngineering/Discreetly/blob/acc670fc4c43aa545dbbd03817879abfe5bc819e/packages/server/config/rooms.ts#L37
   // TODO If the claim code is valid, then we would add the user to the room
   // const identityCommitment = data.identityCommitment; // FIX this is the identity commitment from the user, think of it as a user ID
