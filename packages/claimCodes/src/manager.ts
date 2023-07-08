@@ -43,19 +43,24 @@ export default class ClaimCodeManager {
     return code.join('-');
   }
 
-  private static generateClaimCodes(count: number, claimCodes: ClaimCodeT[] = []): ClaimCodeT[] {
+  private static generateClaimCodes(
+    count: number,
+    code_length: number,
+    claimCodes: ClaimCodeT[] = []
+  ): ClaimCodeT[] {
     let codes: string[] = [];
     for (let i = 0; i < count; i++) {
       let pass = false;
+      let code: string;
       while (pass == false) {
-        let code: string = this.generateRandomClaimCode();
+        code = this.generateRandomClaimCode(code_length);
         if (codes.includes(code)) {
           continue;
         }
         pass = true;
       }
       claimCodes.push({
-        code: this.generateRandomClaimCode(),
+        code: code,
         used: false
       });
     }
@@ -82,16 +87,22 @@ export default class ClaimCodeManager {
     return { status, message, claimCodes };
   }
 
-  public generateClaimCodeSet(count: number, groupID: number | string = 0, name: string = '') {
+  public generateClaimCodeSet(
+    count: number,
+    groupID: number | string = 0,
+    name: string = '',
+    code_length: number = 4
+  ) {
     groupID = groupID.toString();
     if (this.claimCodeSets[groupID]) {
       this.claimCodeSets[groupID].claimCodes = ClaimCodeManager.generateClaimCodes(
         count,
+        code_length,
         this.claimCodeSets[groupID].claimCodes
       );
     } else {
       this.claimCodeSets[groupID] = {
-        claimCodes: ClaimCodeManager.generateClaimCodes(count),
+        claimCodes: ClaimCodeManager.generateClaimCodes(count, code_length),
         groupID: Number(groupID),
         generationTime: Date.now(),
         name: name
