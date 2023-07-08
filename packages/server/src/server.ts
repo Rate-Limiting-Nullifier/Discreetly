@@ -120,12 +120,22 @@ app.get('/api/rooms', (req, res) => {
   res.json(loadedRooms);
 });
 
+  // TODO api endpoint that creates new rooms and generates invite codes for them
+
 app.post('/join', (req, res) => {
   const { code, idc } = req.body;
   console.log(code, idc);
   // TODO This is where we would validate the claim/invite code
   // TODO the `result` is in this format: https://github.com/AtHeartEngineering/Discreetly/blob/f2ea89d4b87004693985854e17a4e669177c4df3/packages/claimCodes/src/manager.ts#L10
   const result = ccm.claimCode(code);
+  if (result.status === 'CLAIMED') {
+    // join room
+    // update redis with new code status
+    redisClient.set('ccm', JSON.stringify(ccm.getClaimCodeSets()))
+    console.log('Code claimed');
+  } else {
+    console.error('Code already claimed')
+  }
   // TODO The `groupID` is the room ID like in https://github.com/AtHeartEngineering/Discreetly/blob/acc670fc4c43aa545dbbd03817879abfe5bc819e/packages/server/config/rooms.ts#L37
   // TODO If the claim code is valid, then we would add the user to the room
   // const identityCommitment = data.identityCommitment; // FIX this is the identity commitment from the user, think of it as a user ID
