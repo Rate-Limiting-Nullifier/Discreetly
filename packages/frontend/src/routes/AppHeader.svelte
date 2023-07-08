@@ -96,5 +96,17 @@
 
 	.nav-link {
 		color: var(--steel);
+		text-decoration: none;
+	}
+
+	.nav-link:hover {
+		color: var(--steel-bright);
+		text-decoration: none;
+	}
+
+	.dropdown-item:focus,
+	.dropdown-item:hover {
+		color: var(--blackish);
+		background-color: var(--steel-bright);
 	}
 </style>

@@ -10,6 +10,7 @@
   --steel-very-light: hsl(185, 28%, 88%);
   --steel-light: hsl(185, 18%, 66%);
   --steel-bright: hsl(185, 75%, 33%);
+  --steel-bright-rg: 21, 137, 147;
   --steel-dark: hsl(185, 18%, 33%);
   --steel-night: hsl(185, 12%, 12%);
   --neon-green: #59f02b;
@@ -83,7 +84,9 @@
   --bs-form-invalid-color: #ea868f;
   --bs-form-invalid-border-color: #ea868f;
   --bs-font-sans-serif: 'Space Grotesk', Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", sans-serif;
-  --bs-font-monospace: 'Space Mono', monospace
+  --bs-font-monospace: 'Space Mono', monospace;
+  --bs-link-hover-color: var(--steel-bright);
+  --bs-link-hover-color-rgb: var(--steel-bright-rgb);
 }
 
 h1,
@@ -117,6 +120,43 @@ h6 {
   --bs-btn-disabled-color: var(--steel-dark);
   --bs-btn-disabled-bg: var(--steel-night);
   --bs-btn-disabled-border-color: var(--orangered);
+}
+
+.nav {
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-color: var(--steel-dark);
+  --bs-nav-link-hover-color: var(--steel-bright);
+  --bs-nav-link-disabled-color: var(--bs-secondary-color);
+}
+
+.nav-link {
+  color: var(--steel);
+}
+
+.nav-underline .nav-link.active,
+.nav-underline .show>.nav-link {
+  color: var(--steel-bright);
+}
+
+.nav-link:focus,
+.nav-link:hover {
+  color: var(--steel-bright);
+}
+
+a.nav-link:hover,
+a.btn:hover {
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--steel-bright);
+  text-decoration: underline;
+}
+
+a {
+  color: var(--steel);
+  text-decoration: none;
 }
 
 input,

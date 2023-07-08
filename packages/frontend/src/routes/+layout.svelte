@@ -53,6 +53,6 @@
 
 <style>
 	main {
-		margin-top: calc(0.5rem + 51px);
+		margin-top: calc(52px);
 	}
 </style>

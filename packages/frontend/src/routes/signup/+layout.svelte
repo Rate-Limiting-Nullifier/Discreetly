@@ -1,33 +1,41 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+	import { page } from '$app/stores';
 </script>
 
-<nav class="flex justify-center my-6">
-  <ul class="steps">
-    <a href="/signup" class="step step-primary">Sign Up</a>
-    <a
-      href="/signup/gates"
-      class="step"
-      class:step-primary={$page.route.id?.match(/gates|ceremony|backup/g)}>
-      Choose Communities
-    </a>
-    <a
-      href="/signup/ceremony"
-      class="step"
-      class:step-primary={$page.route.id?.match(/ceremony|backup/g)}>
-      Create Identity
-    </a>
-    <a
-      href="/signup/backup"
-      class="step"
-      class:step-primary={$page.route.id?.match(/backup/g)}>
-      Backup Identity
-    </a>
-  </ul>
-</nav>
+<ul class="nav nav-underline d-flex justify-content-evenly mt-3 mb-4">
+	<li class="nav-item">
+		<a
+			class="nav-link"
+			class:active={!$page.route.id?.match(/gates|ceremony|backup/g)}
+			aria-current="page"
+			href="/signup">Sign Up</a
+		>
+	</li>
+	<li class="nav-item">
+		<a
+			class="nav-link"
+			href="/signup/gates"
+			class:active={$page.route.id?.match(/gates/g)}
+			class:step-primary={$page.route.id?.match(/gates|ceremony|backup/g)}>Choose Communities</a
+		>
+	</li>
+	<li class="nav-item">
+		<a
+			class="nav-link"
+			href="/signup/ceremony"
+			class:step-primary={$page.route.id?.match(/ceremony|backup/g)}
+			class:active={$page.route.id?.match(/ceremony/g)}>Create Identity</a
+		>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" href="/signup/backup" class:active={$page.route.id?.match(/backup/g)}
+			>Backup Identity</a
+		>
+	</li>
+</ul>
 
-<main class="card w-4/6 bg-neutral text-neutral-content mx-auto">
-  <div class="card-body items-center text-center">
-    <slot />
-  </div>
-</main>
+<div class="container-fluid">
+	<div class="d-flex flex-column align-items-center">
+		<slot />
+	</div>
+</div>
