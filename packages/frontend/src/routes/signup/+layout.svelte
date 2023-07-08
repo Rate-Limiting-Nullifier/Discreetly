@@ -1,5 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { identityStore } from '$lib/stores';
+
+	// TODO Check if Identity is created
+	// TODO Check if Gates exist
 </script>
 
 <ul class="nav nav-underline d-flex justify-content-evenly mt-3 mb-4">

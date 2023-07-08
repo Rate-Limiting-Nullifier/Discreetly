@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ServerI } from '$lib/types';
-	import { serverDataStore, selectedServer } from '$lib/stores';
+	import { serverDataStore, selectedServer, serverListStore } from '$lib/stores';
 	export let setSelectedServer: (server: number) => void;
 </script>
 
@@ -35,25 +35,27 @@
 						role="button"
 						data-bs-toggle="dropdown"
 						aria-expanded="false"
+						title={String($serverDataStore[$selectedServer].name + ' (' + $selectedServer + ')')}
 					>
 						{$serverDataStore[$selectedServer].name}
 					</a>
 					<ul class="dropdown-menu">
-						{#each $serverDataStore as server, index}
+						{#each $serverListStore as key}
 							<li>
 								<div
-									aria-label={'select ' + server.name}
+									aria-label={'select ' + $serverDataStore[key].name}
 									class="dropdown-item"
-									on:click={() => setSelectedServer(index)}
+									on:click={() => setSelectedServer(key)}
 									on:keydown={(event) => {
 										if (event.key === 'Enter' || event.key === ' ') {
-											setSelectedServer(index);
+											setSelectedServer(key);
 										}
 									}}
 									role="button"
 									tabindex="0"
+									title={String($serverDataStore[key].name + ' (' + key + ')')}
 								>
-									{server.name}
+									{$serverDataStore[key].name}
 								</div>
 							</li>
 						{/each}

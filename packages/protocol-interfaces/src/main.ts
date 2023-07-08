@@ -47,6 +47,7 @@ export interface RoomGroupI {
 }
 
 export interface ServerI {
+  id: bigint;
   name: string;
   version?: string;
   serverInfoEndpoint: string;

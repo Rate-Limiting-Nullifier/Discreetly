@@ -3,7 +3,7 @@ import { randomBigInt, genId, str2BigInt } from '../../../protocol-interfaces/sr
 import { poseidon1 } from 'poseidon-lite/poseidon1';
 import { Group } from '@semaphore-protocol/group';
 import type { Identity } from '@semaphore-protocol/identity';
-import type { MessageI, RoomI } from './types';
+import type { MessageI, RoomI, ServerI } from './types';
 import { poseidon2 } from 'poseidon-lite/poseidon2';
 
 const wasmPath = '/rln/circuit.wasm';
@@ -48,4 +48,21 @@ async function genProof(room: RoomI, message: string, identity: Identity): Promi
 	});
 }
 
-export { genProof, randomBigInt, genId };
+async function fetchServer(server_url: string): Promise<ServerI | void> {
+	console.debug(`Fetching server ${server_url}`);
+	return fetch(server_url, {
+		method: 'GET',
+		headers: {
+			'Access-Control-Allow-Origin': 'http://localhost:*'
+		}
+	})
+		.then(async (response): Promise<ServerI> => {
+			const serverData: ServerI = await response.json();
+			return serverData;
+		})
+		.catch((err) => {
+			console.error(err);
+		});
+}
+
+export { genProof, randomBigInt, genId, fetchServer };

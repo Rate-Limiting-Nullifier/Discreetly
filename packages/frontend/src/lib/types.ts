@@ -10,6 +10,12 @@ import type {
 	Server
 } from '../../../protocol-interfaces/src/main';
 
+interface ButtonI {
+	link: string;
+	text: string;
+	class?: string;
+}
+
 export type {
 	RoomI,
 	MessageI,
@@ -19,5 +25,6 @@ export type {
 	SystemMessageI,
 	IdentityCommitmentT,
 	RLNContractI,
-	Server
+	Server,
+	ButtonI
 };

@@ -5,6 +5,8 @@
 	import AppFooter from './AppFooter.svelte';
 	import { identityStore, serverListStore, serverDataStore, selectedServer } from '$lib/stores';
 	import { Identity } from '@semaphore-protocol/identity';
+	import type { ServerI } from '$lib/types';
+	import { fetchServer } from '$lib/utils';
 
 	(BigInt.prototype as any).toJSON = function () {
 		return this.toString();
@@ -16,23 +18,18 @@
 	}
 
 	onMount(async () => {
-		$serverListStore.forEach((server, index) => {
-			console.debug(`Fetching server ${server}`);
-			fetch(server, {
-				method: 'GET',
-				headers: {
-					'Access-Control-Allow-Origin': 'http://localhost:*'
-				}
-			})
-				.then(async (response) => {
-					$serverDataStore[index] = await response.json();
-				})
-				.catch((err) => {
-					console.error(err);
-				});
+		$serverListStore.forEach((server: string) => {
+			console.log('fetching server data');
+			fetchServer(server).then((data) => {
+				console.log('setting server data');
+				console.log(data);
+				console.log(server);
+				$serverDataStore[server] = data as ServerI;
+				console.log($serverDataStore);
+			});
 		});
 		if ($selectedServer.name == undefined) {
-			$selectedServer = 0;
+			$selectedServer = $serverListStore[0];
 		}
 	});
 

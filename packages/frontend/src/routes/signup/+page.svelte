@@ -12,7 +12,8 @@
 			class: 'btn-primary'
 		}
 	];
-	let content = `This app is a little different from what you're used to.`;
 </script>
 
-<Card title="Welcome to Discreetly" {content} buttons={links} />
+<Card title="Welcome to Discreetly" buttons={links}>
+	This app is a little different from what you're used to.
+</Card>

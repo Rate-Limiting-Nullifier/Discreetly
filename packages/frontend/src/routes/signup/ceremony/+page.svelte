@@ -12,7 +12,6 @@
 			class: 'btn-primary'
 		}
 	];
-	let content = `TODO`;
 </script>
 
-<Card title="Generate Your Identity" {content} buttons={links} />
+<Card title="Generate Your Identity" buttons={links}>TODO</Card>

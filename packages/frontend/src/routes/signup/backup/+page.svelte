@@ -7,7 +7,6 @@
 			class: 'btn-primary'
 		}
 	];
-	let content = `TODO`;
 </script>
 
-<Card title="Backup Your Identity" {content} buttons={links} />
+<Card title="Backup Your Identity" buttons={links}>TODO</Card>
