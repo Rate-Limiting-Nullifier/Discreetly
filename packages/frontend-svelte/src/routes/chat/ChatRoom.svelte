@@ -67,7 +67,6 @@
 	function sendMessage(message: string) {
 		const identity = new Identity($identityStore.toString());
 		genProof(room, message, identity).then((msg) => {
-			console.log(msg);
 			socket.emit('validateMessage', msg);
 		});
 	}
@@ -84,11 +83,12 @@
 			{/if}
 		</span>
 	</h3>
-	<div id="chat-messages" class="mb-3">
+	<div id="messages" class="mb-3">
 		<section>
 			{#each messages as message}
-				<div class="chat-message">
-					<strong>{message.id}</strong>: {message.message}
+				<div class="msg">
+					<div class="msg-id">{message.id}</div>
+					<span class="msg-text">{message.message}</span>
 				</div>
 			{/each}
 		</section>
@@ -118,20 +118,41 @@
 </div>
 
 <style>
-	#chat-messages {
+	#messages {
 		border: 1px solid var(--steel-dark);
 		border-radius: 0.5em;
 		padding: 0.35rem 0.5rem;
 		background-color: var(--steel-white);
 	}
 
-	#chat-messages section {
+	#messages section {
 		overflow-y: scroll;
 		max-height: 60vh;
 		display: flex;
 		flex-direction: column-reverse;
 		gap: 0.5rem;
 	}
+
+	.msg {
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+	}
+
+	.msg-id {
+		font-family: 'Space Mono', monospace;
+		color: var(--steel-dark);
+		width: 12ch;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	.msg-text::before {
+		content: ':';
+		color: var(--steel);
+		margin-right: 0.5rem;
+	}
+
 	#chat-input {
 		display: flex;
 		flex-direction: row;

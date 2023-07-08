@@ -6,8 +6,8 @@ import type { Identity } from '@semaphore-protocol/identity';
 import type { MessageI, RoomI } from './types';
 import { poseidon2 } from 'poseidon-lite/poseidon2';
 
-const wasmPath = '/rln.wasm';
-const zkeyPath = '/rln_final.zkey';
+const wasmPath = '/rln/circuit.wasm';
+const zkeyPath = '/rln/final.zkey';
 const prover: RLNProver = new RLNProver(wasmPath, zkeyPath);
 
 interface proofInputsI {
@@ -21,32 +21,29 @@ interface proofInputsI {
 }
 
 async function genProof(room: RoomI, message: string, identity: Identity): Promise<MessageI> {
-	const userMessageLimit = BigInt(2);
+	const userMessageLimit = BigInt(1);
 	const messageHash: bigint = poseidon1([str2BigInt(message)]);
 	const group = new Group(room.id, 20, room.membership?.identityCommitments);
-	const idCommitment = BigInt(identity.getCommitment());
-	const rateCommitment: bigint = poseidon2([idCommitment, userMessageLimit]);
-	group.addMember(rateCommitment);
-	const merkleproof: MerkleProof = group.generateMerkleProof(group.indexOf(rateCommitment));
+	const rateCommitment: bigint = poseidon2([identity.getCommitment(), userMessageLimit]);
+	group.addMember(rateCommitment); // FIXME: This is just a hack to add the user to the group for testing
 	const proofInputs: proofInputsI = {
 		rlnIdentifier: BigInt(room.id),
 		identitySecret: identity.getSecret(),
 		userMessageLimit: userMessageLimit,
-		messageId: BigInt(1),
-		merkleProof: merkleproof,
+		messageId: BigInt(0),
+		merkleProof: group.generateMerkleProof(group.indexOf(rateCommitment)),
 		x: messageHash,
 		epoch: BigInt(Date.now().toString())
 	};
-	console.debug('PROOFINPUTS:', proofInputs);
+	//console.debug('PROOFINPUTS:', proofInputs);
 	return prover.generateProof(proofInputs).then((proof: RLNFullProof) => {
-		console.debug('PROOF:', proof);
+		console.log('Proof generated!');
 		const msg: MessageI = {
 			id: proof.snarkProof.publicSignals.nullifier.toString(),
 			message: message,
 			room: BigInt(proof.snarkProof.publicSignals.externalNullifier),
 			proof
 		};
-		console.debug(msg);
 		return msg;
 	});
 }

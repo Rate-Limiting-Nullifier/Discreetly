@@ -79,13 +79,13 @@ io.on('connection', (socket: Socket) => {
   console.debug('a user connected');
 
   socket.on('validateMessage', (msg: MessageI) => {
-    console.log('VALIDATING MESSAGE ID:', msg.id, 'MSG:', msg.message);
+    console.log('VALIDATING MESSAGE ID:', msg.id.slice(0, 11), 'MSG:', msg.message);
     const timestamp = Date.now().toString();
-    //const valid = verifyProof(msg);
-    // if (!valid) {
-    //   console.log('INVALID MESSAGE');
-    //   return;
-    // }
+    const valid = verifyProof(msg);
+    if (!valid) {
+      console.log('INVALID MESSAGE');
+      return;
+    }
     io.emit('messageBroadcast', msg);
   });
 
@@ -118,6 +118,10 @@ app.get(['/', '/api'], (req, res) => {
 app.get('/api/rooms', (req, res) => {
   console.log('fetching rooms');
   res.json(loadedRooms);
+});
+
+app.get('/api/rooms/:id', (req, res) => {
+  // TODO This should return the room info for the given room ID
 });
 
 // TODO api endpoint that creates new rooms and generates invite codes for them
