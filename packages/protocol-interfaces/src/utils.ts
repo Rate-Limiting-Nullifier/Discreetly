@@ -1,12 +1,16 @@
 import { poseidon2 } from 'poseidon-lite/poseidon2';
 
+export function str2BigInt(str: string) {
+  let num = '';
+  for (let i = 0; i < str.length; i++) {
+    num += str.charCodeAt(i).toString();
+  }
+  return BigInt(num);
+}
+
 export function genId(serverID: bigint, roomName: string | bigint | number) {
   if (typeof roomName === 'string') {
-    let roomNum = '';
-    for (let i = 0; i < roomName.length; i++) {
-      roomNum += roomName.charCodeAt(i).toString();
-    }
-    return poseidon2([serverID, BigInt(roomNum)]);
+    return poseidon2([serverID, str2BigInt(roomName)]);
   }
   return poseidon2([serverID, BigInt(roomName)]);
 }

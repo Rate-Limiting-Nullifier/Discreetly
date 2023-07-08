@@ -4,9 +4,9 @@
 	import type { RoomGroupI, RoomI } from '$lib/types';
 	import { serverDataStore, selectedServer } from '$lib/stores';
 	import { onMount } from 'svelte';
-	import { roomGroups } from '$lib/rooms';
 
 	let room: RoomI;
+	let loaded: Boolean = false;
 
 	function selectRoom(id: RoomI['id']) {
 		$serverDataStore[$selectedServer].selectedRoom = id;
@@ -38,13 +38,21 @@
 
 	onMount(() => {
 		setRoom($serverDataStore[$selectedServer].selectedRoom as string);
+		loaded = true;
 	});
 </script>
 
 <div class="container-fluid mt-2">
 	<div class="row">
-		<RoomList {selectRoom} />
-		{#if room}
+		{#if $serverDataStore[$selectedServer] && loaded}
+			<RoomList {selectRoom} />
+		{:else}
+			<div class="col-12">
+				<div class="alert alert-info" role="alert">Loading Room List...</div>
+			</div>
+		{/if}
+
+		{#if room && loaded}
 			<ChatRoom {room} />
 		{:else}
 			<slot />

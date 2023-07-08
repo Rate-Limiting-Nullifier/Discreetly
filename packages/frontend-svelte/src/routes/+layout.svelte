@@ -1,11 +1,10 @@
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
-	import type { ServerI } from '$lib/types';
 	import AppHeader from './AppHeader.svelte';
 	import AppFooter from './AppFooter.svelte';
 	import { identityStore, serverListStore, serverDataStore, selectedServer } from '$lib/stores';
-	import { randomBigInt } from '$lib/utils';
+	import { Identity } from '@semaphore-protocol/identity';
 
 	(BigInt.prototype as any).toJSON = function () {
 		return this.toString();
@@ -17,7 +16,6 @@
 	}
 
 	onMount(async () => {
-		console.info('Fetching server config');
 		$serverListStore.forEach((server, index) => {
 			console.debug(`Fetching server ${server}`);
 			fetch(server, {
@@ -28,23 +26,20 @@
 			})
 				.then(async (response) => {
 					$serverDataStore[index] = await response.json();
-					console.debug($serverDataStore[index]);
 				})
 				.catch((err) => {
 					console.error(err);
 				});
 		});
 		if ($selectedServer.name == undefined) {
-			console.debug('setting selected server');
 			$selectedServer = 0;
 		}
 	});
 
-	if ($identityStore.length != 2) {
+	// TODO THIS IS ONLY FOR DEVELOPMENT AND SHOULD BE REMOVED AFTER SIGNUP IS SETUP
+	if (!$identityStore['_nullifier']) {
 		console.log('MAKING UP SECRETS');
-		const nullifier = randomBigInt();
-		const trapdoor = randomBigInt();
-		$identityStore = [nullifier, trapdoor];
+		$identityStore = new Identity();
 	}
 </script>
 
