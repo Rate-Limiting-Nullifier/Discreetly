@@ -41,7 +41,7 @@
 		}
 	});
 
-	if ($identityStore.length != 2) {
+	if (!$identityStore['_nullifier']) {
 		console.log('MAKING UP SECRETS');
 		$identityStore = new Identity();
 	}

@@ -79,13 +79,13 @@ io.on('connection', (socket: Socket) => {
   console.debug('a user connected');
 
   socket.on('validateMessage', (msg: MessageI) => {
-    console.log('VALIDATING MESSAGE ' + msg);
+    console.log('VALIDATING MESSAGE ID:', msg.id, 'MSG:', msg.message);
+    const timestamp = Date.now().toString();
     //const valid = verifyProof(msg);
     // if (!valid) {
     //   console.log('INVALID MESSAGE');
     //   return;
     // }
-    msg.id = Date.now().toString();
     io.emit('messageBroadcast', msg);
   });
 
@@ -120,7 +120,7 @@ app.get('/api/rooms', (req, res) => {
   res.json(loadedRooms);
 });
 
-  // TODO api endpoint that creates new rooms and generates invite codes for them
+// TODO api endpoint that creates new rooms and generates invite codes for them
 
 app.post('/join', (req, res) => {
   const { code, idc } = req.body;
@@ -131,10 +131,10 @@ app.post('/join', (req, res) => {
   if (result.status === 'CLAIMED') {
     // join room
     // update redis with new code status
-    redisClient.set('ccm', JSON.stringify(ccm.getClaimCodeSets()))
+    redisClient.set('ccm', JSON.stringify(ccm.getClaimCodeSets()));
     console.log('Code claimed');
   } else {
-    console.error('Code already claimed')
+    console.error('Code already claimed');
   }
   // TODO The `groupID` is the room ID like in https://github.com/AtHeartEngineering/Discreetly/blob/acc670fc4c43aa545dbbd03817879abfe5bc819e/packages/server/config/rooms.ts#L37
   // TODO If the claim code is valid, then we would add the user to the room

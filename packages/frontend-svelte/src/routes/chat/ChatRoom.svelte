@@ -3,7 +3,8 @@
 	import type { RoomI, MessageI } from '$lib/types';
 	import { io } from 'socket.io-client';
 	import { onDestroy } from 'svelte';
-	import { prover } from '$lib/utils';
+	import { genProof } from '$lib/utils';
+	import { Identity } from '@semaphore-protocol/identity';
 
 	export let room: RoomI;
 
@@ -58,31 +59,32 @@
 		console.debug(err.message);
 	});
 
-	socket.on('messageBroadcast', (data) => {
+	socket.on('messageBroadcast', (data: MessageI) => {
 		messages = [data, ...messages];
 		messages = messages.slice(0, 500);
 		$messageStore[room.id.toString()] = messages;
 	});
 
 	function sendMessage(message: string) {
-		const msg = prover(room, message, $identityStore);
-		socket.emit('validateMessage', msg);
+		const identity = new Identity($identityStore.toString());
+		genProof(room, message, identity).then((msg) => {
+			console.log(msg);
+			socket.emit('validateMessage', msg);
+		});
 	}
 </script>
 
 <div class="col chat-room">
-	<div>
-		<h3>
-			{room?.name}
-			<span class="fs-6 fw-light">
-				{#if connected}
-					Connected!
-				{:else}
-					Disconnected!
-				{/if}
-			</span>
-		</h3>
-	</div>
+	<h3>
+		{room?.name}
+		<span class="fs-6 fw-light">
+			{#if connected}
+				Connected!
+			{:else}
+				Disconnected!
+			{/if}
+		</span>
+	</h3>
 	<div id="chat-messages" class="mb-3">
 		<section>
 			{#each messages as message}

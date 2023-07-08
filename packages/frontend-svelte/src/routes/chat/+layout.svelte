@@ -4,7 +4,6 @@
 	import type { RoomGroupI, RoomI } from '$lib/types';
 	import { serverDataStore, selectedServer } from '$lib/stores';
 	import { onMount } from 'svelte';
-	import { roomGroups } from '$lib/rooms';
 
 	let room: RoomI;
 
@@ -43,7 +42,14 @@
 
 <div class="container-fluid mt-2">
 	<div class="row">
-		<RoomList {selectRoom} />
+		{#if $serverDataStore[$selectedServer].roomGroups.length > 0}
+			<RoomList {selectRoom} />
+		{:else}
+			<div class="col-12">
+				<div class="alert alert-info" role="alert">Loading Rooms...</div>
+			</div>
+		{/if}
+
 		{#if room}
 			<ChatRoom {room} />
 		{:else}

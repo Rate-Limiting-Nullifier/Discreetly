@@ -1,11 +1,14 @@
 import { RLNProver, type RLNFullProof, type MerkleProof } from 'rlnjs';
-import { randomBigInt, genId } from '../../../protocol-interfaces/src/utils';
-import { poseidon1 as poseidon } from 'poseidon-lite/poseidon1';
+import { randomBigInt, genId, str2BigInt } from '../../../protocol-interfaces/src/utils';
+import { poseidon1 } from 'poseidon-lite/poseidon1';
 import { Group } from '@semaphore-protocol/group';
 import type { Identity } from '@semaphore-protocol/identity';
 import type { MessageI, RoomI } from './types';
+import { poseidon2 } from 'poseidon-lite/poseidon2';
 
-const prover: RLNProver = new RLNProver('/rln.wasm', '/rln_final.zkey');
+const wasmPath = '/rln.wasm';
+const zkeyPath = '/rln_final.zkey';
+const prover: RLNProver = new RLNProver(wasmPath, zkeyPath);
 
 interface proofInputsI {
 	rlnIdentifier: bigint;
@@ -18,27 +21,36 @@ interface proofInputsI {
 }
 
 async function genProof(room: RoomI, message: string, identity: Identity): Promise<MessageI> {
-	const messageHash: bigint = poseidon([message]);
+	const userMessageLimit = 1n;
+	const messageHash: bigint = poseidon1([str2BigInt(message)]);
 	const group = new Group(room.id, 20, room.membership?.identityCommitments);
-	const merkleproof: MerkleProof = await group.getMerkleProof(identity.getCommitment());
+	const idCommitment = BigInt(identity.getCommitment());
+	console.log(idCommitment);
+	const rateCommitment: bigint = poseidon2([idCommitment, userMessageLimit]);
+	group.addMember(rateCommitment);
+	const merkleproof: MerkleProof = await group.generateMerkleProof(group.indexOf(rateCommitment));
+	console.debug('MERKLEPROOF:', merkleproof);
 	const proofInputs: proofInputsI = {
 		rlnIdentifier: BigInt(room.id),
 		identitySecret: identity.getSecret(),
-		userMessageLimit: 1n,
-		messageId: 1n,
+		userMessageLimit: userMessageLimit,
+		messageId: 0n,
 		merkleProof: merkleproof,
 		x: messageHash,
 		epoch: BigInt(Date.now().toString())
 	};
-
-	const proof: RLNFullProof = await prover.generateProof(proofInputs);
-	const msg: MessageI = {
-		id: proof.snarkProof.publicSignals.nullifier.toString(),
-		message: message,
-		room: BigInt(proof.snarkProof.publicSignals.externalNullifier),
-		proof
-	};
-	return msg;
+	console.debug('PROOFINPUTS:', proofInputs);
+	return prover.generateProof(proofInputs).then((proof: RLNFullProof) => {
+		console.debug('PROOF:', proof);
+		const msg: MessageI = {
+			id: proof.snarkProof.publicSignals.nullifier.toString(),
+			message: message,
+			room: BigInt(proof.snarkProof.publicSignals.externalNullifier),
+			proof
+		};
+		console.debug(msg);
+		return msg;
+	});
 }
 
 export { genProof, randomBigInt, genId };
