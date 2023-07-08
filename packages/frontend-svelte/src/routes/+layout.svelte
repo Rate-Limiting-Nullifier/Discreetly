@@ -16,7 +16,6 @@
 	}
 
 	onMount(async () => {
-		console.info('Fetching server config');
 		$serverListStore.forEach((server, index) => {
 			console.debug(`Fetching server ${server}`);
 			fetch(server, {
@@ -27,18 +26,17 @@
 			})
 				.then(async (response) => {
 					$serverDataStore[index] = await response.json();
-					console.debug($serverDataStore[index]);
 				})
 				.catch((err) => {
 					console.error(err);
 				});
 		});
 		if ($selectedServer.name == undefined) {
-			console.debug('setting selected server');
 			$selectedServer = 0;
 		}
 	});
 
+	// TODO THIS IS ONLY FOR DEVELOPMENT AND SHOULD BE REMOVED AFTER SIGNUP IS SETUP
 	if (!$identityStore['_nullifier']) {
 		console.log('MAKING UP SECRETS');
 		$identityStore = new Identity();

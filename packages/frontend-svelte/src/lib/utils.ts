@@ -21,20 +21,18 @@ interface proofInputsI {
 }
 
 async function genProof(room: RoomI, message: string, identity: Identity): Promise<MessageI> {
-	const userMessageLimit = 1n;
+	const userMessageLimit = BigInt(2);
 	const messageHash: bigint = poseidon1([str2BigInt(message)]);
 	const group = new Group(room.id, 20, room.membership?.identityCommitments);
 	const idCommitment = BigInt(identity.getCommitment());
-	console.log(idCommitment);
 	const rateCommitment: bigint = poseidon2([idCommitment, userMessageLimit]);
 	group.addMember(rateCommitment);
-	const merkleproof: MerkleProof = await group.generateMerkleProof(group.indexOf(rateCommitment));
-	console.debug('MERKLEPROOF:', merkleproof);
+	const merkleproof: MerkleProof = group.generateMerkleProof(group.indexOf(rateCommitment));
 	const proofInputs: proofInputsI = {
 		rlnIdentifier: BigInt(room.id),
 		identitySecret: identity.getSecret(),
 		userMessageLimit: userMessageLimit,
-		messageId: 0n,
+		messageId: BigInt(1),
 		merkleProof: merkleproof,
 		x: messageHash,
 		epoch: BigInt(Date.now().toString())

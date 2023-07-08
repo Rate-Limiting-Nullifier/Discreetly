@@ -29,10 +29,9 @@
 	socket.on('connect', () => {
 		connected = true;
 		const engine = socket.io.engine;
-		console.debug(engine.transport.name);
 
 		engine.once('upgrade', () => {
-			console.debug('Upgrading connection: ', engine.transport.name);
+			console.debug('Upgraded connection to', engine.transport.name);
 		});
 
 		engine.on('close', (reason) => {
@@ -48,15 +47,15 @@
 	});
 
 	socket.on('connect_error', (err) => {
-		console.debug(err.message);
+		console.debug('chat connection error', err.message);
 	});
 
 	socket.on('connect_timeout', (err) => {
-		console.debug(err.message);
+		console.debug('chat connection timeout', err.message);
 	});
 
 	socket.on('error', (err) => {
-		console.debug(err.message);
+		console.debug('chat websocket error', err.message);
 	});
 
 	socket.on('messageBroadcast', (data: MessageI) => {
@@ -75,13 +74,13 @@
 </script>
 
 <div class="col chat-room">
-	<h3>
+	<h3 class="d-flex justify-content-between align-content-center">
 		{room?.name}
-		<span class="fs-6 fw-light">
+		<span class="fs-6 fw-light align-self-center" style="color:gray">
 			{#if connected}
-				Connected!
+				<div aria-label="Connected">🟢</div>
 			{:else}
-				Disconnected!
+				<div aria-label="Disconnected">🔴</div>
 			{/if}
 		</span>
 	</h3>
