@@ -33,6 +33,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@semaphore-protocol/group": "^3.10.1",
+		"@zk-kit/incremental-merkle-tree": "^1.1.0",
+		"circomlibjs": "^0.1.7",
+		"poseidon-lite": "^0.2.0",
 		"socket.io-client": "^4.7.1"
 	}
 }

@@ -12,6 +12,9 @@
     "packages/*"
   ],
   "dependencies": {
+    "@semaphore-protocol/group": "^3.10.1",
+    "@semaphore-protocol/identity": "^3.10.1",
+    "@semaphore-protocol/proof": "^3.10.1",
     "typescript": "^5.1.3"
   },
   "devDependencies": {

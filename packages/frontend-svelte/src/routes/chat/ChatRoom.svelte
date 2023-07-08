@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { selectedServer, messageStore, serverDataStore } from '$lib/stores';
+	import { identityStore, selectedServer, messageStore, serverDataStore } from '$lib/stores';
 	import type { RoomI, MessageI } from '$lib/types';
 	import { io } from 'socket.io-client';
 	import { onDestroy } from 'svelte';
-	import { RLNProver } from 'rlnjs';
+	import { prover } from '$lib/utils';
+
 	export let room: RoomI;
 
 	if (!$messageStore[room.id.toString()]) {
@@ -64,11 +65,7 @@
 	});
 
 	function sendMessage(message: string) {
-		const msg = {
-			id: socket.id,
-			message,
-			room: room?.id
-		};
+		const msg = prover(room, message, $identityStore);
 		socket.emit('validateMessage', msg);
 	}
 </script>

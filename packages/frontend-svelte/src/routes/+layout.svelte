@@ -6,6 +6,7 @@
 	import AppFooter from './AppFooter.svelte';
 	import { identityStore, serverListStore, serverDataStore, selectedServer } from '$lib/stores';
 	import { randomBigInt } from '$lib/utils';
+	import { Identity } from '@semaphore-protocol/identity';
 
 	(BigInt.prototype as any).toJSON = function () {
 		return this.toString();
@@ -42,9 +43,7 @@
 
 	if ($identityStore.length != 2) {
 		console.log('MAKING UP SECRETS');
-		const nullifier = randomBigInt();
-		const trapdoor = randomBigInt();
-		$identityStore = [nullifier, trapdoor];
+		$identityStore = new Identity();
 	}
 </script>
 
