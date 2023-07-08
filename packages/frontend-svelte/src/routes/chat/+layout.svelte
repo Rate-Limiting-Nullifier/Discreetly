@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 
 	let room: RoomI;
+	let loaded: Boolean = false;
 
 	function selectRoom(id: RoomI['id']) {
 		$serverDataStore[$selectedServer].selectedRoom = id;
@@ -37,20 +38,21 @@
 
 	onMount(() => {
 		setRoom($serverDataStore[$selectedServer].selectedRoom as string);
+		loaded = true;
 	});
 </script>
 
 <div class="container-fluid mt-2">
 	<div class="row">
-		{#if $serverDataStore[$selectedServer].roomGroups.length > 0}
+		{#if $serverDataStore[$selectedServer] && loaded}
 			<RoomList {selectRoom} />
 		{:else}
 			<div class="col-12">
-				<div class="alert alert-info" role="alert">Loading Rooms...</div>
+				<div class="alert alert-info" role="alert">Loading Room List...</div>
 			</div>
 		{/if}
 
-		{#if room}
+		{#if room && loaded}
 			<ChatRoom {room} />
 		{:else}
 			<slot />

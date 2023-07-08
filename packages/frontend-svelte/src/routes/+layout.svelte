@@ -1,11 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
-	import type { ServerI } from '$lib/types';
 	import AppHeader from './AppHeader.svelte';
 	import AppFooter from './AppFooter.svelte';
 	import { identityStore, serverListStore, serverDataStore, selectedServer } from '$lib/stores';
-	import { randomBigInt } from '$lib/utils';
 	import { Identity } from '@semaphore-protocol/identity';
 
 	(BigInt.prototype as any).toJSON = function () {
